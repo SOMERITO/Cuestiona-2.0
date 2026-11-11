@@ -14,7 +14,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 INDEX_FILE = BASE_DIR / "index.html"
 HOST = "127.0.0.1"
-PORT = int(os.environ.get("PREGUNTATOR_PORT", "8000"))
+PORT = int(os.environ.get("CUESTIONA_PORT", "8000"))
 MODEL = os.environ.get("OPENAI_MODEL", "gpt-6-luna")
 API_URL = "https://api.openai.com/v1/responses"
 MAX_BODY = 1_500_000
