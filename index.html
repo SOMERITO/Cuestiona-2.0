@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101828"><title>Preguntator — Exámenes inteligentes desde PDF</title>
+<meta name="theme-color" content="#101828"><title>Cuestiona 2.0 — Exámenes inteligentes desde PDF</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--ink:#172033;--muted:#718096;--line:#e6eaf1;--brand:#5365dc;--brand2:#3949b8;--navy:#131e35;--green:#15845d;--red:#c34452;--shadow:0 16px 45px #1825440c;--r:18px}
@@ -22,7 +22,7 @@
 <body>
 <div class="global-drop-overlay" id="globalDropOverlay" aria-hidden="true"><div class="global-drop-panel"><div class="global-drop-icon">⇩</div><div class="global-drop-title">Suelta tus documentos aquí</div><div class="global-drop-subtitle">Puedes soltarlos en cualquier parte de la pantalla.</div><div class="global-drop-hint">PDF · SE ADMITEN VARIOS ARCHIVOS</div></div></div>
 <div class="app">
-<header class="top"><div class="brand"><div class="mark">Q</div><div><strong>PREGUNTATOR</strong><small>Evaluaciones inteligentes desde tus documentos</small></div></div><div class="secure">◈ <span>PDF procesados localmente</span></div></header>
+<header class="top"><div class="brand"><div class="mark">Q</div><div><strong>CUESTIONA 2.0</strong><small>Evaluaciones inteligentes desde tus documentos</small></div></div><div class="secure">◈ <span>PDF procesados localmente</span></div></header>
 <section class="hero"><div class="eyebrow">Aprende con intención</div><h1>Convierte tus manuales en exámenes.</h1><p>Sube tus documentos, define el nivel y practica con preguntas creadas a partir del material fuente.</p></section>
 <div class="layout">
 <aside class="card side">
@@ -40,7 +40,7 @@
 </aside>
 <main class="card main">
 <div class="mainhead"><div><h2 id="mainTitle">Tu espacio de evaluación</h2><p id="mainSub">Carga el material para comenzar.</p></div><span class="status" id="status">En espera</span></div>
-<div id="workspace"><div class="empty"><div class="emptyicon">▤</div><h3>Tu próximo examen empieza aquí</h3><p>Agrega uno o varios PDF. Preguntator analizará el contenido y construirá preguntas con cuatro alternativas y explicaciones.</p></div></div>
+<div id="workspace"><div class="empty"><div class="emptyicon">▤</div><h3>Tu próximo examen empieza aquí</h3><p>Agrega uno o varios PDF. Cuestiona 2.0 analizará el contenido y construirá preguntas con cuatro alternativas y explicaciones.</p></div></div>
 </main>
 </div>
 </div>
@@ -124,7 +124,7 @@ function setApiState(connected,message,title){
  $("apiHelp").hidden=apiAvailable;
  if(!apiAvailable){
   $("apiHelpTitle").textContent=title||"La IA necesita el servidor local";
-  $("apiHelpText").textContent="Ejecuta Iniciar_Preguntator.bat en tu computadora y abre Preguntator desde http://127.0.0.1:8000. La dirección de GitHub Pages solo muestra la interfaz.";
+  $("apiHelpText").textContent="Ejecuta Iniciar_Cuestiona 2.0.bat en tu computadora y abre Cuestiona 2.0 desde http://127.0.0.1:8000. La dirección de GitHub Pages solo muestra la interfaz.";
  }
 }
 async function checkApi(){
@@ -134,9 +134,9 @@ async function checkApi(){
   if(!r.ok||!type.includes("application/json"))throw new Error("El servidor local no respondió.");
   const d=await r.json();
   if(d.connected){setApiState(true,"IA conectada · "+(d.model||"OpenAI"),"");apiMessage="";}
-  else{apiMessage="El servidor está activo, pero no tiene una clave API configurada.";setApiState(false,"Clave API no configurada","Falta configurar la clave de OpenAI");$("apiHelpText").textContent="Cierra el servidor, vuelve a ejecutar Iniciar_Preguntator.bat e introduce tu clave API cuando la solicite.";}
+  else{apiMessage="El servidor está activo, pero no tiene una clave API configurada.";setApiState(false,"Clave API no configurada","Falta configurar la clave de OpenAI");$("apiHelpText").textContent="Cierra el servidor, vuelve a ejecutar Iniciar_Cuestiona 2.0.bat e introduce tu clave API cuando la solicite.";}
  }catch{
-  apiMessage="No se encontró el servidor local de Preguntator.";
+  apiMessage="No se encontró el servidor local de Cuestiona 2.0.";
   setApiState(false,"Servidor IA sin conexión","No hay conexión con el servidor de IA");
  }
 }
@@ -151,19 +151,19 @@ async function generate(){
  const truncated=text.length>100000;const payload={source_text:truncated?text.slice(0,100000):text,count:count,difficulty:$("difficulty").value,truncated:truncated};
  $("generate").disabled=true;$("generate").innerHTML='<span class="spinner"></span> Generando';$("status").textContent="Analizando";$("workspace").innerHTML='<div class="empty"><div class="emptyicon"><span class="spinner" style="border-color:#5365dc44;border-top-color:#5365dc"></span></div><h3>Preparando tu evaluación</h3><p>La IA está revisando el material y diseñando preguntas con alternativas plausibles. Evitamos completar la cantidad si el documento no permite hacerlo con rigor.</p></div>';
  try{
-  if(!apiAvailable)throw new Error(apiMessage+" Ejecuta Iniciar_Preguntator.bat y abre http://127.0.0.1:8000. No es posible generar preguntas desde la página estática de GitHub.");
+  if(!apiAvailable)throw new Error(apiMessage+" Ejecuta Iniciar_Cuestiona 2.0.bat y abre http://127.0.0.1:8000. No es posible generar preguntas desde la página estática de GitHub.");
   const r=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
   const contentType=(r.headers.get("content-type")||"").toLowerCase();
   const responseText=await r.text();
   if(!contentType.includes("application/json")||responseText.trim().startsWith("<")){
-   throw new Error("La página recibió HTML en lugar de una respuesta de IA. Esto suele ocurrir cuando se abre desde GitHub Pages. Ejecuta Iniciar_Preguntator.bat y entra en http://127.0.0.1:8000.");
+   throw new Error("La página recibió HTML en lugar de una respuesta de IA. Esto suele ocurrir cuando se abre desde GitHub Pages. Ejecuta Iniciar_Cuestiona 2.0.bat y entra en http://127.0.0.1:8000.");
   }
   let data;
   try{data=JSON.parse(responseText);}catch{throw new Error("El servidor respondió con datos que no se pudieron interpretar. Reinicia el servidor local y vuelve a intentarlo.");}
   if(!r.ok)throw new Error(data.error||"No se pudo generar el examen.");
   if(!Array.isArray(data.questions)||!data.questions.length)throw new Error("La IA no encontró preguntas suficientes y justificables.");
  exam=data.questions;index=0;answers=Array(exam.length).fill(null);chosen=null;confirmed=false;$("status").textContent="Examen listo";$("mainSub").textContent=exam.length+" preguntas · "+$("difficulty").selectedOptions[0].textContent;if(data.note)showError(data.note);renderQuestion();
- }catch(e){$("status").textContent="Conexión pendiente";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">!</div><h3>No hay conexión con la IA</h3><p>'+esc(e.message)+'</p><p style="margin-top:10px">Inicia <b>Iniciar_Preguntator.bat</b> y abre <b>http://127.0.0.1:8000</b>.</p><button class="btn secondary" id="retryConnection" style="margin-top:14px">Comprobar conexión</button></div>';$("retryConnection").addEventListener("click",async()=>{await checkApi();if(apiAvailable){$("status").textContent="IA conectada";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">✓</div><h3>Conexión recuperada</h3><p>Ya puedes generar tu examen.</p></div>';}else showError(apiMessage);});}
+ }catch(e){$("status").textContent="Conexión pendiente";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">!</div><h3>No hay conexión con la IA</h3><p>'+esc(e.message)+'</p><p style="margin-top:10px">Inicia <b>Iniciar_Cuestiona 2.0.bat</b> y abre <b>http://127.0.0.1:8000</b>.</p><button class="btn secondary" id="retryConnection" style="margin-top:14px">Comprobar conexión</button></div>';$("retryConnection").addEventListener("click",async()=>{await checkApi();if(apiAvailable){$("status").textContent="IA conectada";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">✓</div><h3>Conexión recuperada</h3><p>Ya puedes generar tu examen.</p></div>';}else showError(apiMessage);});}
  finally{$("generate").disabled=false;$("generate").textContent="✦ Generar examen";checkApi();}
 }
 $("generate").addEventListener("click",generate);
