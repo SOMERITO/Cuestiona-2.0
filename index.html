@@ -76,7 +76,7 @@ async function generate(){
 }
 $("generate").addEventListener("click",generate);
 function renderQuestion(){
- const q=exam[index];chosen=answers[index];confirmed=!!(answers[index]&&answers[index].confirmed);
+ const q=exam[index];const prior=answers[index];chosen=prior?prior.choice:null;confirmed=!!(prior&&prior.confirmed);
  const pct=Math.round((index/exam.length)*100);
  $("mainTitle").textContent="Evaluación en curso";$("status").textContent="Pregunta "+(index+1)+" de "+exam.length;
  let h='<div class="progressrow"><span>Progreso</span><b>'+(index+1)+' / '+exam.length+'</b></div><div class="progress"><div style="width:'+pct+'%"></div></div><div class="qmeta"><span class="tag">'+esc(q.topic||"Contenido del documento")+'</span><span class="tag">'+esc(q.skill||"Comprensión")+'</span><span class="tag source">'+esc(q.document||"Material fuente")+' · pág. '+esc(q.page)+'</span></div><h3 class="question">'+esc(q.question)+'</h3><div class="options">';
