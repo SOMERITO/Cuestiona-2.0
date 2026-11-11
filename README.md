@@ -1,4 +1,4 @@
-# Preguntator
+# Cuestiona 2.0
 
 Genera evaluaciones de opción múltiple a partir de uno o varios documentos PDF. Incluye cuatro alternativas por pregunta, retroalimentación por alternativa y referencia al documento y página.
 
@@ -18,7 +18,7 @@ Genera evaluaciones de opción múltiple a partir de uno o varios documentos PDF
 
 1. Instala Python 3.9 o posterior.
 2. Descarga o clona este repositorio.
-3. Haz doble clic en \`Iniciar_Preguntator.bat\`.
+3. Haz doble clic en \`Iniciar_Cuestiona 2.0.bat\`.
 4. Introduce tu clave API de OpenAI cuando la terminal la solicite. La escritura está oculta.
 5. Abre **http://127.0.0.1:8000** en Chrome o Edge.
 
@@ -27,13 +27,13 @@ Para iniciar sin IA, pulsa Enter sin introducir una clave. La interfaz se abrir�
 ## Inicio desde terminal
 
 \`\`\`bash
-python servidor_preguntator.py
+python servidor_cuestiona.py
 \`\`\`
 
 En Windows también puedes usar:
 
 \`\`\`powershell
-py servidor_preguntator.py
+py servidor_cuestiona.py
 \`\`\`
 
 ## Configuración de OpenAI
@@ -54,12 +54,12 @@ El modelo predeterminado es \`gpt-6-luna\`. Puedes cambiarlo mediante la variabl
 
 ## Importante: página de GitHub vs. aplicación con IA
 
-Si abres Preguntator desde una dirección de GitHub Pages (`https://...`), podrás ver la interfaz, pero **no podrás generar preguntas con IA desde esa dirección**: GitHub Pages solo sirve archivos estáticos y no ejecuta el servidor Python. Por eso aparece el aviso «Servidor IA sin conexión».
+Si abres Cuestiona 2.0 desde una dirección de GitHub Pages (`https://...`), podrás ver la interfaz, pero **no podrás generar preguntas con IA desde esa dirección**: GitHub Pages solo sirve archivos estáticos y no ejecuta el servidor Python. Por eso aparece el aviso «Servidor IA sin conexión».
 
 Para generar exámenes en tu computadora:
 
 1. Descarga el repositorio (botón **Code → Download ZIP**) y extrae la carpeta.
-2. Ejecuta `Iniciar_Preguntator.bat` con doble clic.
+2. Ejecuta `Iniciar_Cuestiona 2.0.bat` con doble clic.
 3. Introduce tu clave API de OpenAI cuando la terminal la solicite.
 4. Deja abierta la ventana de la terminal mientras utilizas la aplicación.
 5. Entra desde el mismo equipo a **http://127.0.0.1:8000** (no desde la URL de GitHub Pages).
@@ -70,7 +70,7 @@ Si quieres que la app funcione desde una URL pública, habrá que desplegar tamb
 
 ## Estructura
 
-- \`index.html\`: interfaz de Preguntator.
-- \`servidor_preguntator.py\`: servidor local y conexión con OpenAI.
-- \`Iniciar_Preguntator.bat\`: iniciador para Windows.
+- \`index.html\`: interfaz de Cuestiona 2.0.
+- \`servidor_cuestiona.py\`: servidor local y conexión con OpenAI.
+- \`Iniciar_Cuestiona 2.0.bat\`: iniciador para Windows.
 - \`.gitignore\`: exclusión de archivos locales y secretos.
