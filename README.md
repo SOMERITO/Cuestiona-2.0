@@ -2,77 +2,40 @@
 
 **Repositorio oficial:** https://github.com/SOMERITO/Cuestiona-2.0
 
-Genera evaluaciones de opción múltiple a partir de uno o varios documentos PDF. Incluye cuatro alternativas por pregunta, retroalimentación por alternativa y referencia al documento y página.
+Genera cuestionarios de opción múltiple desde documentos PDF directamente en tu navegador, sin API de pago, sin clave y sin servidor Python.
 
-## Características
+## Funciones
 
-- Carga múltiple de PDF con zona de arrastrar y soltar.
-- Extracción local del texto y sus páginas mediante PDF.js.
-- Configuración de cantidad (1–100) y dificultad.
-- Generación de preguntas mediante OpenAI Responses API.
-- Preguntas centradas en comprensión, interpretación, comparación y aplicación según el contenido.
-- Cuatro alternativas plausibles y una única respuesta correcta.
-- Explicación de la respuesta correcta y de cada distractor.
-- Tooltips oscuros en las acciones principales.
-- Clave API protegida en un servidor local; nunca se incluye en el HTML.
+- Carga de varios PDF y arrastrar archivos a cualquier parte de la pantalla.
+- Extracción local del texto y referencias de página mediante PDF.js.
+- Generación local de preguntas a partir de definiciones explícitas del material.
+- Cuatro alternativas por pregunta, una respuesta correcta y explicación basada en el texto.
+- Corrección inmediata y revisión de respuestas.
+- Solicitud de hasta 1.000 preguntas por generación, limitada por la cantidad de conceptos distintos que realmente puedan extraerse.
 
-## Inicio en Windows
+## Cómo usar
 
-1. Instala Python 3.9 o posterior.
-2. Clona o descarga este repositorio.
-3. Haz doble clic en `Iniciar_Cuestiona.bat`.
-4. Introduce tu clave API de OpenAI cuando la terminal la solicite. La escritura está oculta.
-5. Abre **http://127.0.0.1:8000** en Chrome o Edge.
+1. Abre la página publicada o sirve los archivos estáticos desde cualquier servidor web.
+2. Carga uno o varios PDF con texto seleccionable.
+3. Indica cuántas preguntas deseas (1–1.000).
+4. Pulsa **Generar examen** y responde las alternativas.
 
-Para iniciar sin IA, pulsa Enter sin introducir una clave. La interfaz se abrirá, pero la generación de exámenes requiere configurar la API.
+No necesitas crear una cuenta, introducir una clave API ni ejecutar Python.
 
-## Inicio desde terminal
+## Cómo se generan las preguntas
 
-```bash
-python servidor_cuestiona.py
-```
+La generación se realiza en el navegador mediante reglas de extracción de texto. La versión actual identifica construcciones explícitas como «X es…», «X consiste en…», «X se define como…» y «X se refiere a…». Usa la descripción original como base de la pregunta y otros conceptos encontrados en los documentos como distractores.
 
-En Windows también puedes usar:
+**Límite importante:** esto no es un modelo de IA. La calidad y cantidad dependen de cómo esté redactado el PDF. No inventa preguntas para completar el número solicitado; si solo encuentra 23 preguntas distintas y solicitas 100, entrega las 23 y lo informa. Los PDF escaneados sin texto seleccionable necesitan OCR previo. Algunas preguntas pueden requerir revisión humana, especialmente si el documento contiene frases complejas o definiciones muy parecidas.
 
-```powershell
-py servidor_cuestiona.py
-```
+## Privacidad y coste
 
-## Configuración de OpenAI
-
-Crea una clave API en https://platform.openai.com/api-keys. La API se factura por separado de la suscripción de ChatGPT. Configura límites de gasto en tu cuenta antes de utilizarla.
-
-El modelo predeterminado se configura mediante la variable de entorno `OPENAI_MODEL`.
-
-## Privacidad y límites
-
-- El servidor escucha únicamente en `127.0.0.1`, es decir, en tu propio equipo.
-- La clave se solicita de forma oculta y permanece en memoria mientras el servidor está activo.
-- Los PDF se extraen en el navegador. Al generar el examen, el texto extraído se envía a OpenAI.
-- La solicitud usa `store: false`.
-- No cargues documentos confidenciales o cuya divulgación no esté autorizada.
-- Se procesan hasta 100.000 caracteres por generación. El resto se omite y se informa a la IA del recorte.
-- Los PDF escaneados sin texto seleccionable requieren OCR antes de cargarse.
-
-## Importante: página de GitHub vs. aplicación con IA
-
-Si abres Cuestiona 2.0 desde una dirección de GitHub Pages (`https://...`), podrás ver la interfaz, pero **no podrás generar preguntas con IA desde esa dirección**: GitHub Pages solo sirve archivos estáticos y no ejecuta el servidor Python.
-
-Para generar exámenes en tu computadora:
-
-1. Descarga el repositorio (botón **Code → Download ZIP**) y extrae la carpeta.
-2. Ejecuta `Iniciar_Cuestiona.bat` con doble clic.
-3. Introduce tu clave API de OpenAI cuando la terminal la solicite.
-4. Deja abierta la ventana de la terminal mientras utilizas la aplicación.
-5. Entra desde el mismo equipo a **http://127.0.0.1:8000** (no desde la URL de GitHub Pages).
-
-La dirección local muestra la interfaz y se comunica con el servidor Python que protege tu clave. Si cierras la terminal, el servicio de IA se detiene.
-
-Si quieres que la app funcione desde una URL pública, habrá que desplegar también el backend en un servicio compatible con Python y configurar HTTPS, autenticación, límites de uso y gestión segura de secretos. No basta con activar GitHub Pages.
+- Los archivos se leen en el navegador y su texto no se envía a OpenAI ni a otro servicio de generación.
+- No hay costes por uso de API.
+- PDF.js se carga desde una CDN pública, por lo que la primera carga de la biblioteca requiere conexión a internet.
+- No cargues documentos confidenciales en equipos o navegadores compartidos.
 
 ## Estructura
 
-- `index.html`: interfaz de Cuestiona 2.0.
-- `servidor_cuestiona.py`: servidor local y conexión con OpenAI.
-- `Iniciar_Cuestiona.bat`: iniciador para Windows.
+- `index.html`: aplicación web y generación local.
 - `.gitignore`: exclusión de archivos locales y secretos.
