@@ -30,6 +30,7 @@
 .bank-stat span{font-size:9px;color:#6b7d73}
 .bank-help{font-size:9px;color:#627369;line-height:1.5;margin-top:9px}
 .bank-drop-hint{font-size:9px!important;color:#6b778c!important;margin-top:10px!important}
+.answer-instruction{margin:-8px 0 13px;color:#67758a;font-size:10px;line-height:1.5}
 .answer-highlight{padding:11px 12px;margin-top:9px;border:1px solid #b9dfca;background:#fff;border-radius:9px;color:#205c42}
 .answer-highlight strong{display:block;margin-bottom:3px}
 .user-answer{padding:9px 11px;margin-top:9px;border:1px solid #efc8cd;background:#fff;border-radius:9px;color:#77343d}
@@ -368,7 +369,9 @@ function renderQuestion() {
     '<div class="progress"><div style="width:' + pct + '%"></div></div>' +
     '<div class="qmeta"><span class="tag">' + esc(q.topic) + '</span><span class="tag">' + esc(q.skill) + '</span>' +
     (source ? '<span class="tag source">' + esc(source) + '</span>' : '') + '</div>' +
-    '<h3 class="question">' + esc(q.question) + '</h3><div class="options">';
+    '<h3 class="question">' + esc(q.question) + '</h3>' +
+    (confirmed ? '' : '<p class="answer-instruction">Selecciona una alternativa para registrar tu respuesta. Se corregirá automáticamente al hacer clic.</p>') +
+    '<div class="options">';
   html += q.options.map((option, optionIndex) => {
     const classes = (chosen === optionIndex ? "selected " : "") +
       (confirmed && optionIndex === q.answer ? "correct " : "") +
@@ -396,8 +399,6 @@ function renderQuestion() {
   }
   html += '</div><div class="examfoot">' +
     '<button class="btn secondary" id="finish" data-tip="Finaliza y muestra tu resultado.">Finalizar</button>' +
-    '<button class="btn primary" id="confirm" ' + (chosen === null || confirmed ? "disabled" : "") +
-    ' data-tip="Comprueba tu respuesta y revisa la explicación.">Comprobar respuesta</button>' +
     '<button class="btn primary" id="next" style="display:' + (confirmed ? "inline-flex" : "none") + '">' +
     (index === total - 1 ? "Ver resultado" : "Siguiente →") + '</button></div>';
   $("workspace").innerHTML = html;
@@ -405,16 +406,10 @@ function renderQuestion() {
     button.addEventListener("click", () => {
       if (confirmed) return;
       chosen = Number(button.dataset.option);
-      $("workspace").querySelectorAll("[data-option]").forEach(option => {
-        option.classList.toggle("selected", option === button);
-      });
-      $("confirm").disabled = false;
+      // El clic en la alternativa registra y corrige la respuesta inmediatamente.
+      answers[currentIndex] = {choice:chosen, confirmed:true};
+      renderQuestion();
     });
-  });
-  $("confirm").addEventListener("click", () => {
-    if (chosen === null || confirmed) return;
-    answers[currentIndex] = {choice:chosen, confirmed:true};
-    renderQuestion();
   });
   $("next").addEventListener("click", () => {
     if (index < total - 1) {
