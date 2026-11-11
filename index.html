@@ -23,7 +23,7 @@
 <div class="global-drop-overlay" id="globalDropOverlay" aria-hidden="true"><div class="global-drop-panel"><div class="global-drop-icon">⇩</div><div class="global-drop-title">Suelta tus documentos aquí</div><div class="global-drop-subtitle">Puedes soltarlos en cualquier parte de la pantalla.</div><div class="global-drop-hint">PDF · SE ADMITEN VARIOS ARCHIVOS</div></div></div>
 <div class="app">
 <header class="top"><div class="brand"><div class="mark">Q</div><div><strong>CUESTIONA 2.0</strong><small>Evaluaciones inteligentes desde tus documentos</small></div></div><div class="secure">◈ <span>PDF procesados localmente</span></div></header>
-<section class="hero"><div class="eyebrow">Aprende con intención</div><h1>Convierte tus manuales en exámenes.</h1><p>Sube tus documentos, define el nivel y practica con preguntas creadas a partir del material fuente.</p></section>
+<section class="hero"><div class="eyebrow">Aprende con intención</div><h1>Crea exámenes directamente desde tus manuales.</h1><p>Sin API, sin suscripciones adicionales y con tus documentos procesados en tu navegador.</p></section>
 <div class="layout">
 <aside class="card side">
 <h2 class="heading">01 · Material de estudio</h2>
@@ -32,15 +32,15 @@
 <div class="summary"><span id="fileCount">0 documentos</span><strong id="pageCount">0 páginas</strong></div>
 <div class="divider"></div>
 <h2 class="heading">02 · Configuración</h2>
-<div class="two"><div class="field"><label for="count">Preguntas</label><input id="count" type="number" min="1" max="100" value="10"></div><div class="field"><label for="difficulty">Dificultad</label><select id="difficulty"><option value="basica">Básica</option><option value="intermedia" selected>Intermedia</option><option value="avanzada">Avanzada</option></select></div></div>
-<div class="api" id="api"><i class="dot"></i><span id="apiText">Comprobando conexión de IA…</span></div><div class="api-help" id="apiHelp" hidden><strong id="apiHelpTitle">La IA necesita el servidor local</strong><span id="apiHelpText">La página estática de GitHub no puede ejecutar Python. Inicia el servidor y abre la dirección local.</span><br><code>http://127.0.0.1:8000</code><br><button type="button" id="copyLocalUrl">Copiar dirección local</button></div>
-<button class="btn primary full" id="generate" data-tip="Analiza los PDF y prepara el examen con IA.">✦ Generar examen</button>
+<div class="two"><div class="field"><label for="count">Preguntas</label><input id="count" type="number" min="1" max="1000" value="10"></div><div class="field"><label for="difficulty">Dificultad</label><select id="difficulty"><option value="basica">Básica</option><option value="intermedia" selected>Intermedia</option><option value="avanzada">Avanzada</option></select></div></div>
+<div class="api on" id="api"><i class="dot"></i><span>Generación local · Sin API · Sin coste</span></div>
+<button class="btn primary full" id="generate" data-tip="Crea preguntas a partir del texto de tus PDF, sin conectarse a una API.">✦ Generar examen</button>
 <div class="error" id="error"></div>
-<div class="note">Las preguntas se basan únicamente en el texto extraído de tus documentos.</div>
+<div class="note">Generación local: tus documentos no salen del navegador.</div>
 </aside>
 <main class="card main">
 <div class="mainhead"><div><h2 id="mainTitle">Tu espacio de evaluación</h2><p id="mainSub">Carga el material para comenzar.</p></div><span class="status" id="status">En espera</span></div>
-<div id="workspace"><div class="empty"><div class="emptyicon">▤</div><h3>Tu próximo examen empieza aquí</h3><p>Agrega uno o varios PDF. Cuestiona 2.0 analizará el contenido y construirá preguntas con cuatro alternativas y explicaciones.</p></div></div>
+<div id="workspace"><div class="empty"><div class="emptyicon">▤</div><h3>Tu próximo examen empieza aquí</h3><p>Agrega uno o varios PDF. Cuestiona 2.0 buscará definiciones y conceptos en su contenido, sin conexión a servicios de IA.</p></div></div>
 </main>
 </div>
 </div>
@@ -115,58 +115,42 @@ window.addEventListener("dragend",hideGlobalDrop);
 window.addEventListener("blur",hideGlobalDrop);
 
 $("files").addEventListener("click",e=>{const b=e.target.closest("[data-remove]");if(!b)return;docs.splice(Number(b.dataset.remove),1);renderFiles();$("status").textContent=docs.length?"Material listo":"En espera";});
-let apiAvailable=false;
-let apiMessage="El servidor de IA no está disponible.";
-function setApiState(connected,message,title){
- apiAvailable=!!connected;
- $("api").classList.toggle("on",apiAvailable);
- $("apiText").textContent=message;
- $("apiHelp").hidden=apiAvailable;
- if(!apiAvailable){
-  $("apiHelpTitle").textContent=title||"La IA necesita el servidor local";
-  $("apiHelpText").textContent="Ejecuta Iniciar_Cuestiona.bat en tu computadora y abre Cuestiona 2.0 desde http://127.0.0.1:8000. La dirección de GitHub Pages solo muestra la interfaz.";
- }
-}
-async function checkApi(){
- try{
-  const r=await fetch("/api/status",{headers:{"Accept":"application/json"},cache:"no-store"});
-  const type=(r.headers.get("content-type")||"").toLowerCase();
-  if(!r.ok||!type.includes("application/json"))throw new Error("El servidor local no respondió.");
-  const d=await r.json();
-  if(d.connected){setApiState(true,"IA conectada · "+(d.model||"OpenAI"),"");apiMessage="";}
-  else{apiMessage="El servidor está activo, pero no tiene una clave API configurada.";setApiState(false,"Clave API no configurada","Falta configurar la clave de OpenAI");$("apiHelpText").textContent="Cierra el servidor, vuelve a ejecutar Iniciar_Cuestiona.bat e introduce tu clave API cuando la solicite.";}
- }catch{
-  apiMessage="No se encontró el servidor local de Cuestiona 2.0.";
-  setApiState(false,"Servidor IA sin conexión","No hay conexión con el servidor de IA");
- }
-}
-$("copyLocalUrl").addEventListener("click",async()=>{
- try{await navigator.clipboard.writeText("http://127.0.0.1:8000");$("copyLocalUrl").textContent="Dirección copiada";}
- catch{$("copyLocalUrl").textContent="Copia: 127.0.0.1:8000";}
-});
-async function generate(){
- $("error").classList.remove("show");if(!docs.length){showError("Añade al menos un documento PDF.");return;}
- const count=Math.max(1,Math.min(100,Number($("count").value)||10));$("count").value=count;
- const text=sourceText();if(text.trim().length<120){showError("El contenido extraído es demasiado breve para elaborar un examen.");return;}
- const truncated=text.length>100000;const payload={source_text:truncated?text.slice(0,100000):text,count:count,difficulty:$("difficulty").value,truncated:truncated};
- $("generate").disabled=true;$("generate").innerHTML='<span class="spinner"></span> Generando';$("status").textContent="Analizando";$("workspace").innerHTML='<div class="empty"><div class="emptyicon"><span class="spinner" style="border-color:#5365dc44;border-top-color:#5365dc"></span></div><h3>Preparando tu evaluación</h3><p>La IA está revisando el material y diseñando preguntas con alternativas plausibles. Evitamos completar la cantidad si el documento no permite hacerlo con rigor.</p></div>';
- try{
-  if(!apiAvailable)throw new Error(apiMessage+" Ejecuta Iniciar_Cuestiona.bat y abre http://127.0.0.1:8000. No es posible generar preguntas desde la página estática de GitHub.");
-  const r=await fetch("/api/generate",{method:"POST",headers:{"Content-Type":"application/json","Accept":"application/json"},body:JSON.stringify(payload)});
-  const contentType=(r.headers.get("content-type")||"").toLowerCase();
-  const responseText=await r.text();
-  if(!contentType.includes("application/json")||responseText.trim().startsWith("<")){
-   throw new Error("La página recibió HTML en lugar de una respuesta de IA. Esto suele ocurrir cuando se abre desde GitHub Pages. Ejecuta Iniciar_Cuestiona.bat y entra en http://127.0.0.1:8000.");
+function extractDefinitionCandidates(){
+ const candidates=[],seen=new Set(),ignored=/^(el|la|los|las|un|una|este|esta|estos|estas|se|también|cuando|donde|que|esto|ello|proceso|actividad|acción|forma|manera|caso|parte|tipo|nivel|objetivo|finalidad|función|característica|elemento|material|documento|persona|situación|incidente)$/i;
+ const connectors=[/\\s+se define como\\s+/i,/\\s+se denomina\\s+/i,/\\s+se conoce como\\s+/i,/\\s+consiste en\\s+/i,/\\s+se refiere a\\s+/i,/\\s+es\\s+/i,/\\s+son\\s+/i];
+ docs.forEach(doc=>{let page=1;for(const raw of doc.text.split(/\\n/)){const pm=raw.match(/^PÁGINA:\\s*(\\d+)/i);if(pm){page=Number(pm[1]);continue;}if(/^DOCUMENTO:/i.test(raw))continue;
+  for(let sentence of raw.split(/(?<=[.!?;])\\s+(?=[A-ZÁÉÍÓÚÜÑ0-9])/u)){sentence=sentence.replace(/\\s+/g," ").trim().replace(/^[•\\-–]\\s*/,"");if(sentence.length<55||sentence.length>650)continue;
+   let m=null,sep="";for(const re of connectors){const hit=re.exec(sentence);if(hit){m=hit;sep=hit[0];break;}}if(!m)continue;
+   const term=sentence.slice(0,m.index).trim().replace(/^[,;:\\s]+|[,;:\\s]+$/g,""),definition=sentence.slice(m.index+sep.length).trim().replace(/[.;]\\s*$/,"");
+   if(term.length<2||term.length>90||definition.length<28||definition.length>420||ignored.test(term)||!/\\p{L}{3}/u.test(term)||!/\\p{L}{3}/u.test(definition)||/^(un ejemplo|por ejemplo|es decir|en otras palabras)\\b/i.test(definition))continue;
+   const key=term.toLocaleLowerCase("es")+"|"+definition.toLocaleLowerCase("es").slice(0,90);if(seen.has(key))continue;seen.add(key);candidates.push({term,definition,document:doc.name,page});
   }
-  let data;
-  try{data=JSON.parse(responseText);}catch{throw new Error("El servidor respondió con datos que no se pudieron interpretar. Reinicia el servidor local y vuelve a intentarlo.");}
-  if(!r.ok)throw new Error(data.error||"No se pudo generar el examen.");
-  if(!Array.isArray(data.questions)||!data.questions.length)throw new Error("La IA no encontró preguntas suficientes y justificables.");
- exam=data.questions;index=0;answers=Array(exam.length).fill(null);chosen=null;confirmed=false;$("status").textContent="Examen listo";$("mainSub").textContent=exam.length+" preguntas · "+$("difficulty").selectedOptions[0].textContent;if(data.note)showError(data.note);renderQuestion();
- }catch(e){$("status").textContent="Conexión pendiente";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">!</div><h3>No hay conexión con la IA</h3><p>'+esc(e.message)+'</p><p style="margin-top:10px">Inicia <b>Iniciar_Cuestiona.bat</b> y abre <b>http://127.0.0.1:8000</b>.</p><button class="btn secondary" id="retryConnection" style="margin-top:14px">Comprobar conexión</button></div>';$("retryConnection").addEventListener("click",async()=>{await checkApi();if(apiAvailable){$("status").textContent="IA conectada";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">✓</div><h3>Conexión recuperada</h3><p>Ya puedes generar tu examen.</p></div>';}else showError(apiMessage);});}
- finally{$("generate").disabled=false;$("generate").textContent="✦ Generar examen";checkApi();}
+ }});
+ return candidates;
+}
+function seededShuffle(items,seed){const a=items.slice();let x=(seed>>>0)||1;for(let i=a.length-1;i>0;i--){x=(x*1664525+1013904223)>>>0;const j=x%(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
+function buildLocalExam(requested){
+ const all=extractDefinitionCandidates();if(all.length<4)throw new Error("Encontré pocas definiciones claras para crear preguntas de cuatro alternativas. Prueba con un PDF que contenga conceptos definidos explícitamente.");
+ if(new Set(all.map(x=>x.term.toLocaleLowerCase("es"))).size<4)throw new Error("El documento no contiene cuatro conceptos distintos para crear alternativas fiables.");
+ const questions=[],used=new Set(),ordered=seededShuffle(all,all.length+docs.reduce((n,d)=>n+d.size,0));
+ for(let i=0;i<ordered.length&&questions.length<requested;i++){const item=ordered[i],key=item.term.toLocaleLowerCase("es")+"|"+item.definition.toLocaleLowerCase("es");if(used.has(key))continue;
+  const distractors=[];for(const candidate of ordered){if(candidate.term.toLocaleLowerCase("es")===item.term.toLocaleLowerCase("es")||distractors.some(d=>d.term.toLocaleLowerCase("es")===candidate.term.toLocaleLowerCase("es")))continue;distractors.push(candidate);if(distractors.length===3)break;}if(distractors.length<3)continue;
+  const choices=seededShuffle([{candidate:item,correct:true},...distractors.map(candidate=>({candidate,correct:false}))],i+17),answer=choices.findIndex(x=>x.correct),options=choices.map(x=>x.candidate.term);
+  questions.push({question:"Según el documento, ¿qué concepto corresponde a la siguiente descripción? «"+item.definition+"»",options,answer,explanation:"La respuesta es «"+item.term+"» porque el documento la define así: "+item.definition+".",option_explanations:choices.map(x=>x.correct?"El documento identifica este concepto con la definición citada.":"El material define «"+x.candidate.term+"» de otra manera: "+x.candidate.definition+". Por eso no corresponde a la descripción preguntada."),page:item.page,document:item.document,topic:"Conceptos del documento",skill:"Comprensión"});used.add(key);
+ }
+ if(!questions.length)throw new Error("No se pudieron construir preguntas con alternativas diferenciables a partir del material.");
+ return questions;
+}
+function generate(){
+ $("error").classList.remove("show");if(!docs.length){showError("Añade al menos un documento PDF.");return;}
+ const requested=Math.max(1,Math.min(1000,Number($("count").value)||10));$("count").value=requested;$("generate").disabled=true;$("generate").innerHTML='<span class="spinner"></span> Generando';$("status").textContent="Procesando localmente";
+ $("workspace").innerHTML='<div class="empty"><div class="emptyicon"><span class="spinner" style="border-color:#5365dc44;border-top-color:#5365dc"></span></div><h3>Analizando tus documentos</h3><p>Buscando definiciones y conceptos en el navegador, sin enviar tus archivos a servicios externos.</p></div>';
+ setTimeout(()=>{try{exam=buildLocalExam(requested);index=0;answers=Array(exam.length).fill(null);chosen=null;confirmed=false;$("status").textContent="Examen listo";$("mainSub").textContent=exam.length+" preguntas · Generación local";if(exam.length<requested)showError("Se encontraron "+exam.length+" preguntas distintas con definiciones identificables. No se inventaron preguntas para completar las "+requested+" solicitadas.");renderQuestion();}
+ catch(e){$("status").textContent="Material insuficiente";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">!</div><h3>No se pudo crear el examen</h3><p>'+esc(e.message)+'</p></div>';}
+ finally{$("generate").disabled=false;$("generate").textContent="✦ Generar examen";}},30);
 }
 $("generate").addEventListener("click",generate);
+
 function renderQuestion(){
  const q=exam[index];const prior=answers[index];chosen=prior?prior.choice:null;confirmed=!!(prior&&prior.confirmed);
  const pct=Math.round((index/exam.length)*100);
@@ -174,7 +158,7 @@ function renderQuestion(){
  let h='<div class="progressrow"><span>Progreso</span><b>'+(index+1)+' / '+exam.length+'</b></div><div class="progress"><div style="width:'+pct+'%"></div></div><div class="qmeta"><span class="tag">'+esc(q.topic||"Contenido del documento")+'</span><span class="tag">'+esc(q.skill||"Comprensión")+'</span><span class="tag source">'+esc(q.document||"Material fuente")+' · pág. '+esc(q.page)+'</span></div><h3 class="question">'+esc(q.question)+'</h3><div class="options">';
  h+=q.options.map((o,i)=>'<button class="option '+(chosen===i?'selected ':'')+(confirmed&&i===q.answer?'correct ':'')+(confirmed&&chosen===i&&chosen!==q.answer?'wrong':'')+'" data-option="'+i+'" '+(confirmed?'disabled':'')+'><span class="letter">'+String.fromCharCode(65+i)+'</span><span class="optiontext">'+esc(o)+'</span></button>').join("");
  h+='</div><div class="feedback '+(confirmed?'show '+(chosen===q.answer?'good':'bad'):'')+'" id="feedback">';
- if(confirmed){const selectedWhy=q.option_explanations?.[chosen]||"Revisa la explicación general.";const correctWhy=q.option_explanations?.[q.answer]||q.explanation||"";h+='<strong>'+(chosen===q.answer?'✓ Respuesta correcta':'✕ Respuesta incorrecta')+'</strong><p><b>Respuesta correcta: '+String.fromCharCode(65+q.answer)+'.</b> '+esc(q.options[q.answer])+'</p><div class="reason"><b>Por qué:</b> '+esc(q.explanation||correctWhy)+'</div>'+(chosen!==q.answer?'<div class="reason"><b>Tu alternativa:</b> '+esc(selectedWhy)+'</div>':'');}
+ if(confirmed){const selectedWhy=q.option_explanations?.[chosen]||"Revisa la explicación general.";const correctWhy=q.option_explanations?.[q.answer]||q.explanation||"";h+='<strong>'+(chosen===q.answer?'✓ ¡Correcto!':'✕ Respuesta incorrecta')+'</strong><p><b>Respuesta correcta: '+String.fromCharCode(65+q.answer)+'.</b> '+esc(q.options[q.answer])+'</p><div class="reason"><b>Explicación:</b> '+esc(q.explanation||correctWhy)+'</div>'+(chosen!==q.answer?'<div class="reason"><b>Por qué tu opción no corresponde:</b> '+esc(selectedWhy)+'</div>':'');}
  h+='</div><div class="examfoot"><button class="btn secondary" data-tip="Finaliza el examen y muestra tu resultado." id="finish">Finalizar</button><button class="btn primary" id="confirm" '+(chosen===null||confirmed?'disabled':'')+' data-tip="Comprueba tu alternativa y muestra la explicación.">Comprobar respuesta</button><button class="btn primary" id="next" style="display:'+(confirmed?'inline-flex':'none')+'">'+(index===exam.length-1?'Ver resultado':'Siguiente →')+'</button></div>';
  if(confirmed)h+='<div class="note">Fuente: '+esc(q.document||"Documento")+', página '+esc(q.page)+'.</div>';
  $("workspace").innerHTML=h;
@@ -190,6 +174,5 @@ function renderResult(){
  $("retry").addEventListener("click",()=>{index=0;answers=Array(exam.length).fill(null);renderQuestion();});
  $("wrong").addEventListener("click",()=>{const wrong=exam.map((q,i)=>({q,a:answers[i],i})).filter(x=>x.a&&x.a.choice!==x.q.answer);if(!wrong.length){$("workspace").innerHTML='<div class="empty"><h3>¡Excelente!</h3><p>No tienes respuestas incorrectas.</p></div>';return;}index=wrong[0].i;renderQuestion();});
 }
-checkApi();
 </script>
 </body></html>
