@@ -73,43 +73,55 @@ $("drop").addEventListener("dragover",e=>{e.preventDefault();$("drop").classList
 $("drop").addEventListener("dragleave",()=>$("drop").classList.remove("drag"));
 $("drop").addEventListener("drop",e=>{e.preventDefault();$("drop").classList.remove("drag");addFiles(e.dataTransfer.files);});
 // Captura de archivos en toda la ventana: no depende del recuadro de carga.
-let globalDragDepth=0;
+// Arrastrar y soltar global: acepta uno o varios PDF en cualquier punto de la ventana.
 const globalDropOverlay=$("globalDropOverlay");
-function isExternalFileDrag(ev){
- return !!(ev.dataTransfer && ev.dataTransfer.types && Array.from(ev.dataTransfer.types).includes("Files"));
+function hasDraggedFiles(event){
+ const transfer=event.dataTransfer;
+ if(!transfer)return false;
+ const types=Array.from(transfer.types||[]).map(type=>String(type).toLowerCase());
+ const hasFileType=types.includes("files");
+ const hasFileItem=Array.from(transfer.items||[]).some(item=>item.kind==="file");
+ return hasFileType||hasFileItem||!!(transfer.files&&transfer.files.length);
 }
 function showGlobalDrop(){
  globalDropOverlay.classList.add("visible");
  globalDropOverlay.setAttribute("aria-hidden","false");
 }
 function hideGlobalDrop(){
- globalDragDepth=0;
  globalDropOverlay.classList.remove("visible");
  globalDropOverlay.setAttribute("aria-hidden","true");
 }
-document.addEventListener("dragenter",ev=>{
- if(!isExternalFileDrag(ev))return;
- ev.preventDefault();
- globalDragDepth++;
+document.addEventListener("dragenter",event=>{
+ if(!hasDraggedFiles(event))return;
+ event.preventDefault();
+ if(event.dataTransfer)event.dataTransfer.dropEffect="copy";
  showGlobalDrop();
 },true);
-document.addEventListener("dragover",ev=>{
- if(!isExternalFileDrag(ev))return;
- ev.preventDefault();
- if(ev.dataTransfer)ev.dataTransfer.dropEffect="copy";
+document.addEventListener("dragover",event=>{
+ if(!hasDraggedFiles(event))return;
+ event.preventDefault();
+ if(event.dataTransfer)event.dataTransfer.dropEffect="copy";
+ showGlobalDrop();
 },true);
-document.addEventListener("dragleave",ev=>{
- if(!isExternalFileDrag(ev))return;
- globalDragDepth=Math.max(0,globalDragDepth-1);
- if(globalDragDepth===0)hideGlobalDrop();
+document.addEventListener("dragleave",event=>{
+ if(!hasDraggedFiles(event))return;
+ // No ocultar al pasar entre elementos internos: solo al salir de la ventana.
+ const outside=event.clientX<=0||event.clientY<=0||
+  event.clientX>=window.innerWidth||event.clientY>=window.innerHeight;
+ if(outside)hideGlobalDrop();
 },true);
-document.addEventListener("drop",ev=>{
- if(!isExternalFileDrag(ev))return;
- ev.preventDefault();
- ev.stopImmediatePropagation();
- const files=ev.dataTransfer.files;
+document.addEventListener("drop",event=>{
+ const files=Array.from(event.dataTransfer?.files||[]);
+ if(!files.length)return;
+ event.preventDefault();
+ event.stopImmediatePropagation();
  hideGlobalDrop();
- addFiles(files);
+ const pdfs=files.filter(file=>file.type==="application/pdf"||file.name.toLowerCase().endsWith(".pdf"));
+ if(!pdfs.length){
+  showError("Suelta uno o varios documentos PDF para poder analizarlos.");
+  return;
+ }
+ addFiles(pdfs);
 },true);
 window.addEventListener("dragend",hideGlobalDrop);
 window.addEventListener("blur",hideGlobalDrop);
@@ -117,12 +129,12 @@ window.addEventListener("blur",hideGlobalDrop);
 $("files").addEventListener("click",e=>{const b=e.target.closest("[data-remove]");if(!b)return;docs.splice(Number(b.dataset.remove),1);renderFiles();$("status").textContent=docs.length?"Material listo":"En espera";});
 function extractDefinitionCandidates(){
  const candidates=[],seen=new Set(),ignored=/^(el|la|los|las|un|una|este|esta|estos|estas|se|también|cuando|donde|que|esto|ello|proceso|actividad|acción|forma|manera|caso|parte|tipo|nivel|objetivo|finalidad|función|característica|elemento|material|documento|persona|situación|incidente)$/i;
- const connectors=[/\\s+se define como\\s+/i,/\\s+se denomina\\s+/i,/\\s+se conoce como\\s+/i,/\\s+consiste en\\s+/i,/\\s+se refiere a\\s+/i,/\\s+es\\s+/i,/\\s+son\\s+/i];
- docs.forEach(doc=>{let page=1;for(const raw of doc.text.split(/\\n/)){const pm=raw.match(/^PÁGINA:\\s*(\\d+)/i);if(pm){page=Number(pm[1]);continue;}if(/^DOCUMENTO:/i.test(raw))continue;
-  for(let sentence of raw.split(/(?<=[.!?;])\\s+(?=[A-ZÁÉÍÓÚÜÑ0-9])/u)){sentence=sentence.replace(/\\s+/g," ").trim().replace(/^[•\\-–]\\s*/,"");if(sentence.length<55||sentence.length>650)continue;
+ const connectors=[/\s+se define como\s+/i,/\s+se denomina\s+/i,/\s+se conoce como\s+/i,/\s+consiste en\s+/i,/\s+se refiere a\s+/i,/\s+es\s+/i,/\s+son\s+/i];
+ docs.forEach(doc=>{let page=1;for(const raw of doc.text.split(/\n/)){const pm=raw.match(/^PÁGINA:\s*(\d+)/i);if(pm){page=Number(pm[1]);continue;}if(/^DOCUMENTO:/i.test(raw))continue;
+  for(let sentence of raw.split(/(?<=[.!?;])\s+(?=[A-ZÁÉÍÓÚÜÑ0-9])/u)){sentence=sentence.replace(/\s+/g," ").trim().replace(/^[•\-–]\s*/,"");if(sentence.length<55||sentence.length>650)continue;
    let m=null,sep="";for(const re of connectors){const hit=re.exec(sentence);if(hit){m=hit;sep=hit[0];break;}}if(!m)continue;
-   const term=sentence.slice(0,m.index).trim().replace(/^[,;:\\s]+|[,;:\\s]+$/g,""),definition=sentence.slice(m.index+sep.length).trim().replace(/[.;]\\s*$/,"");
-   if(term.length<2||term.length>90||definition.length<28||definition.length>420||ignored.test(term)||!/\\p{L}{3}/u.test(term)||!/\\p{L}{3}/u.test(definition)||/^(un ejemplo|por ejemplo|es decir|en otras palabras)\\b/i.test(definition))continue;
+   const term=sentence.slice(0,m.index).trim().replace(/^[,;:\s]+|[,;:\s]+$/g,""),definition=sentence.slice(m.index+sep.length).trim().replace(/[.;]\s*$/,"");
+   if(term.length<2||term.length>90||definition.length<28||definition.length>420||ignored.test(term)||!/\p{L}{3}/u.test(term)||!/\p{L}{3}/u.test(definition)||/^(un ejemplo|por ejemplo|es decir|en otras palabras)\b/i.test(definition))continue;
    const key=term.toLocaleLowerCase("es")+"|"+definition.toLocaleLowerCase("es").slice(0,90);if(seen.has(key))continue;seen.add(key);candidates.push({term,definition,document:doc.name,page});
   }
  }});
