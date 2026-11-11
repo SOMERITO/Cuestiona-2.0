@@ -18,7 +18,7 @@ Genera evaluaciones de opción múltiple a partir de uno o varios documentos PDF
 
 1. Instala Python 3.9 o posterior.
 2. Descarga o clona este repositorio.
-3. Haz doble clic en \`Iniciar_Cuestiona 2.0.bat\`.
+3. Haz doble clic en \`Iniciar_Cuestiona.bat\`.
 4. Introduce tu clave API de OpenAI cuando la terminal la solicite. La escritura está oculta.
 5. Abre **http://127.0.0.1:8000** en Chrome o Edge.
 
@@ -59,7 +59,7 @@ Si abres Cuestiona 2.0 desde una dirección de GitHub Pages (`https://...`), pod
 Para generar exámenes en tu computadora:
 
 1. Descarga el repositorio (botón **Code → Download ZIP**) y extrae la carpeta.
-2. Ejecuta `Iniciar_Cuestiona 2.0.bat` con doble clic.
+2. Ejecuta `Iniciar_Cuestiona.bat` con doble clic.
 3. Introduce tu clave API de OpenAI cuando la terminal la solicite.
 4. Deja abierta la ventana de la terminal mientras utilizas la aplicación.
 5. Entra desde el mismo equipo a **http://127.0.0.1:8000** (no desde la URL de GitHub Pages).
@@ -72,5 +72,5 @@ Si quieres que la app funcione desde una URL pública, habrá que desplegar tamb
 
 - \`index.html\`: interfaz de Cuestiona 2.0.
 - \`servidor_cuestiona.py\`: servidor local y conexión con OpenAI.
-- \`Iniciar_Cuestiona 2.0.bat\`: iniciador para Windows.
+- \`Iniciar_Cuestiona.bat\`: iniciador para Windows.
 - \`.gitignore\`: exclusión de archivos locales y secretos.
