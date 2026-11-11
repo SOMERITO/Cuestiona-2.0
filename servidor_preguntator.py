@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Servidor local de Preguntator. La clave API permanece fuera del navegador."""
+"""Servidor local de Cuestiona 2.0. La clave API permanece fuera del navegador."""
 from __future__ import annotations
 
 import getpass
@@ -143,7 +143,7 @@ def generate_exam(payload: dict) -> dict:
         "text": {
             "format": {
                 "type": "json_schema",
-                "name": "preguntator_exam",
+                "name": "cuestiona_exam",
                 "strict": True,
                 "schema": SCHEMA
             }
@@ -275,7 +275,7 @@ class Handler(SimpleHTTPRequestHandler):
 def main():
     global API_KEY
     if not INDEX_FILE.exists():
-        print("ERROR: index.html debe estar junto a servidor_preguntator.py")
+        print("ERROR: index.html debe estar junto a servidor_cuestiona.py")
         sys.exit(1)
     if not API_KEY:
         print("\nCONFIGURACIÓN DE OPENAI")
@@ -287,7 +287,7 @@ def main():
             API_KEY = ""
 
     server = ThreadingHTTPServer((HOST, PORT), Handler)
-    print("\nPreguntator está activo.")
+    print("\nCuestiona 2.0 está activo.")
     print("Abre: http://" + HOST + ":" + str(PORT))
     print("Motor IA: " + (MODEL if API_KEY else "sin configurar"))
     print("Los PDF se extraen en el navegador. Su texto se envía a OpenAI al generar.")
@@ -295,7 +295,7 @@ def main():
     try:
         server.serve_forever()
     except KeyboardInterrupt:
-        print("\nCerrando Preguntator…")
+        print("\nCerrando Cuestiona 2.0…")
     finally:
         server.server_close()
 
