@@ -12,8 +12,9 @@ Aplicación web para resolver evaluaciones a partir de bancos de preguntas JSON.
 - Compatibilidad con `answer` (índice 0–3) y `correct_option_id` (A–D); si ambos existen, deben coincidir.
 - Selección de la cantidad de preguntas que se desea resolver, hasta el total disponible en el banco.
 - Orden aleatorio de las preguntas para cada intento, sin alterar el orden de las alternativas ni la clave de respuesta.
-- Corrección inmediata: al responder, muestra la alternativa correcta y la explicación asociada al material.
-- Cuando la respuesta es incorrecta, identifica la alternativa elegida y muestra la correcta antes de permitir avanzar.
+- Respuesta enviada al instante: al hacer clic en A, B, C o D, la elección queda registrada como definitiva para esa pregunta.
+- Corrección automática al seleccionar: muestra si acertaste o te equivocaste, marca la alternativa correcta y presenta la explicación asociada al material.
+- No existe un botón intermedio de «Comprobar respuesta»; después de revisar la corrección, aparece «Siguiente» para continuar.
 - Conserva tema, habilidad, documento de origen, página y etiqueta de página cuando esos campos están disponibles.
 - Resultados con aciertos, errores, preguntas sin responder y revisión de las incorrectas.
 
@@ -25,7 +26,8 @@ Aplicación web para resolver evaluaciones a partir de bancos de preguntas JSON.
 4. En Cuestiona 2.0, selecciona el banco o arrástralo a cualquier parte de la ventana.
 5. Comprueba la cantidad de preguntas y los temas detectados.
 6. Elige cuántas preguntas deseas resolver y pulsa **Comenzar evaluación**.
-7. Después de cada respuesta, revisa la corrección y la explicación antes de continuar.
+7. Al hacer clic en una alternativa, la respuesta se registra automáticamente y se muestra la corrección.
+8. Revisa cuál era la respuesta correcta y lee la explicación; después pulsa «Siguiente».
 
 No necesitas crear una cuenta, introducir una clave API ni ejecutar Python.
 
