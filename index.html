@@ -2,8 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#101828"><title>Cuestiona 2.0 — Exámenes inteligentes desde PDF</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<meta name="theme-color" content="#101828"><title>Cuestiona 2.0 — Evaluaciones desde bancos JSON</title>
 <style>
 :root{--bg:#f4f6fb;--card:#fff;--ink:#172033;--muted:#718096;--line:#e6eaf1;--brand:#5365dc;--brand2:#3949b8;--navy:#131e35;--green:#15845d;--red:#c34452;--shadow:0 16px 45px #1825440c;--r:18px}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}.app{max-width:1240px;margin:auto;padding:26px 24px 56px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.mark{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(140deg,#7180f5,#3c4bc2);color:white;font-size:21px;box-shadow:0 8px 22px #5365dc35}.brand strong{display:block;font-size:17px;letter-spacing:-.4px}.brand small{color:var(--muted);font-size:11px}.secure{display:flex;align-items:center;gap:7px;border:1px solid #d8eee3;background:#effaf4;color:#27704f;border-radius:99px;padding:8px 12px;font-size:11px;font-weight:700}.hero{position:relative;overflow:hidden;padding:26px 30px;margin-bottom:20px;border-radius:22px;color:white;background:linear-gradient(115deg,#15213a,#293b6a 68%,#4a55bc);box-shadow:var(--shadow)}.hero:after{content:"";position:absolute;width:260px;height:260px;border:1px solid #ffffff22;border-radius:50%;right:-65px;top:-145px;box-shadow:0 0 0 35px #ffffff09,0 0 0 72px #ffffff07}.eyebrow{font-size:10px;letter-spacing:1.3px;font-weight:800;color:#c2cbff;text-transform:uppercase}.hero h1{font-size:25px;letter-spacing:-.8px;margin:5px 0 6px}.hero p{margin:0;color:#d7def6;font-size:12px;max-width:620px}.layout{display:grid;grid-template-columns:325px minmax(0,1fr);gap:20px;align-items:start}.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.side{padding:19px;position:sticky;top:16px}.main{padding:24px;min-height:600px}.heading{font-size:13px;font-weight:800;margin:0 0 14px;letter-spacing:.1px}.drop{display:block;padding:18px;border:1.5px dashed #bbc5d8;border-radius:15px;background:linear-gradient(145deg,#fcfdff,#f5f7ff);cursor:pointer;transition:.18s}.drop:hover,.drop.drag{border-color:var(--brand);background:#f1f3ff;box-shadow:0 0 0 4px #5365dc12}.drop input{display:none}.drop-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.pdficon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#eef0ff;color:#5365dc;font-size:21px}.pill{font-size:9px;text-transform:uppercase;letter-spacing:.6px;font-weight:800;color:#65718a;background:#eef1f6;padding:5px 8px;border-radius:99px}.drop b{display:block;font-size:12px}.drop span{display:block;color:var(--muted);font-size:10px;margin-top:4px}.drop .browse{color:var(--brand);font-weight:800;margin-top:10px}.files{display:grid;gap:7px;margin-top:11px}.file{display:flex;align-items:center;gap:9px;border:1px solid var(--line);border-radius:11px;padding:9px;background:white}.filebadge{width:30px;height:32px;display:grid;place-items:center;background:#fff0f1;color:#be3e4c;border-radius:8px;font-size:9px;font-weight:900}.filemeta{min-width:0;flex:1}.filename{font-size:10px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.filesub{font-size:9px;color:var(--muted)}.remove{border:0;background:#f3f5f9;color:#758096;border-radius:7px;width:25px;height:25px;cursor:pointer}.remove:hover{background:#fff0f1;color:var(--red)}.summary{display:flex;justify-content:space-between;font-size:10px;color:var(--muted);margin-top:9px}.divider{height:1px;background:var(--line);margin:17px 0}.field{margin-bottom:14px}.field label{display:block;font-size:10px;font-weight:800;color:#46536a;margin-bottom:6px}.field input,.field select{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px 11px;background:#fff;color:var(--ink);outline:none}.field input:focus,.field select:focus{border-color:#8490ed;box-shadow:0 0 0 3px #5365dc15}.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}.api{display:flex;align-items:center;gap:8px;padding:10px;border:1px solid #f0e3c3;background:#fff9ec;color:#785c20;border-radius:10px;font-size:10px;margin-bottom:13px}.dot{width:7px;height:7px;border-radius:50%;background:#d59b27;flex:0 0 7px}.api.on{border-color:#d8eee3;background:#effaf4;color:#27704f}.api.on .dot{background:#169365}.api-help{margin:-5px 0 12px;padding:10px 11px;border:1px solid #e5e9f2;background:#f8f9fc;border-radius:10px;color:#5c6880;font-size:10px;line-height:1.5}.api-help strong{display:block;color:#28354c;font-size:10px;margin-bottom:3px}.api-help code{display:inline-block;background:#e9edf5;border-radius:5px;padding:3px 6px;color:#3a4760;font-size:10px;margin:5px 0}.api-help[hidden]{display:none}.api-help button{border:0;background:none;padding:3px 0;color:#5365dc;font-size:10px;font-weight:800;cursor:pointer}.api-help button:hover{text-decoration:underline}.btn{position:relative;border:0;border-radius:10px;padding:10px 14px;font-weight:750;font-size:11px;display:inline-flex;justify-content:center;align-items:center;gap:8px;cursor:pointer;transition:.16s}.primary{background:var(--brand);color:white;box-shadow:0 6px 14px #5365dc25}.primary:hover{background:var(--brand2);transform:translateY(-1px)}.secondary{background:#f0f2f7;color:#354158;border:1px solid var(--line)}.secondary:hover{background:#e8ebf3}.quiet{background:transparent;color:var(--brand)}.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}.full{width:100%}.btn[data-tip]:before{content:attr(data-tip);position:absolute;z-index:20;left:50%;bottom:calc(100% + 9px);transform:translate(-50%,4px);padding:7px 9px;max-width:240px;width:max-content;border-radius:7px;background:#111827;color:#fff;font-size:10px;font-weight:600;line-height:1.35;white-space:normal;box-shadow:0 6px 18px #11182730;opacity:0;visibility:hidden;pointer-events:none;transition:.15s}.btn[data-tip]:after{content:"";position:absolute;z-index:20;left:50%;bottom:calc(100% + 3px);border:5px solid transparent;border-top-color:#111827;opacity:0;visibility:hidden;transition:.15s}.btn[data-tip]:hover:before,.btn[data-tip]:hover:after,.btn[data-tip]:focus-visible:before,.btn[data-tip]:focus-visible:after{opacity:1;visibility:visible;transform:translate(-50%,0)}.mainhead{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:18px}.mainhead h2{font-size:18px;letter-spacing:-.4px;margin:0 0 4px}.mainhead p{font-size:11px;color:var(--muted);margin:0}.status{font-size:10px;font-weight:750;background:#f0f2f7;color:#536078;border-radius:99px;padding:6px 10px;white-space:nowrap}.empty{min-height:440px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;border:1px dashed #d1d8e5;border-radius:15px;background:#fbfcfe;padding:30px}.emptyicon{width:56px;height:56px;display:grid;place-items:center;border-radius:17px;background:#eef0ff;color:var(--brand);font-size:24px;margin-bottom:14px}.empty h3{font-size:15px;margin:0 0 5px}.empty p{max-width:380px;margin:0;color:var(--muted);font-size:11px}.progressrow{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin:0 0 7px}.progress{height:6px;background:#edf0f5;border-radius:99px;overflow:hidden;margin-bottom:23px}.progress div{height:100%;background:var(--brand);width:0;transition:.2s}.qmeta{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.tag{font-size:9px;font-weight:800;padding:5px 8px;border-radius:7px;background:#f0f2f7;color:#59657a}.tag.source{background:#eff8f3;color:#357856}.question{font-size:17px;line-height:1.5;letter-spacing:-.25px;font-weight:760;margin:0 0 19px}.options{display:grid;gap:9px}.option{display:flex;gap:11px;align-items:flex-start;padding:13px;border:1px solid var(--line);border-radius:12px;background:white;text-align:left;cursor:pointer;transition:.15s;width:100%;color:var(--ink)}.option:hover{border-color:#aab3ee;background:#fafaff}.option.selected{border-color:var(--brand);background:#f2f3ff;box-shadow:0 0 0 2px #5365dc13}.letter{flex:0 0 25px;height:25px;border-radius:8px;display:grid;place-items:center;background:#f0f2f7;color:#65718a;font-size:10px;font-weight:900}.option.selected .letter{background:var(--brand);color:white}.optiontext{font-size:11px;line-height:1.5}.option:disabled{cursor:default}.option.correct{border-color:#70bd99;background:#effaf4}.option.wrong{border-color:#e4a0a7;background:#fff3f4}.feedback{display:none;padding:14px;border-radius:12px;margin-top:15px;font-size:11px;line-height:1.55}.feedback.show{display:block}.feedback.good{border:1px solid #cde9d9;background:#effaf4;color:#245f47}.feedback.bad{border:1px solid #f2d3d6;background:#fff2f3;color:#7d3038}.feedback strong{font-size:12px}.feedback p{margin:6px 0}.reason{padding:9px 10px;background:#ffffffb5;border-radius:8px;margin-top:8px}.examfoot{display:flex;justify-content:space-between;gap:10px;margin-top:17px}.note{font-size:10px;color:var(--muted);margin-top:13px}.result{text-align:center;padding:28px 10px}.score{font-size:48px;font-weight:850;letter-spacing:-2px;color:var(--brand);margin:10px}.result h3{font-size:19px;margin:0}.result p{font-size:11px;color:var(--muted)}.error{background:#fff1f2;color:#8a2e39;border:1px solid #f3d1d5;padding:10px 12px;border-radius:10px;font-size:11px;margin-top:12px;display:none}.error.show{display:block}.spinner{width:14px;height:14px;border:2px solid #ffffff66;border-top-color:white;border-radius:50%;animation:spin .7s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
@@ -17,174 +16,456 @@
 .global-drop-hint{display:inline-flex;align-items:center;gap:7px;margin-top:18px;padding:7px 11px;border-radius:99px;background:#eef1f8;color:#59657a;font-size:10px;font-weight:800;letter-spacing:.4px}
 @media(max-width:520px){.global-drop-panel{padding:30px 20px}.global-drop-title{font-size:18px}.global-drop-subtitle{font-size:11px}}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.side{position:static}.main{min-height:420px}.app{padding:16px}.hero{padding:22px}.hero h1{font-size:21px}}@media(max-width:520px){.top{align-items:flex-start}.secure{font-size:0;padding:9px}.secure span{display:none}.main{padding:17px}.mainhead{display:block}.status{display:inline-block;margin-top:10px}.two{grid-template-columns:1fr 1fr}.examfoot .btn{flex:1}}
+
+/* Importación de bancos JSON */
+.bank-info{margin-top:12px;padding:12px;border:1px solid #d8eee3;background:#f2fbf6;border-radius:12px}
+.bank-info[hidden]{display:none}
+.bank-file{display:flex;align-items:center;gap:9px}
+.json-badge{width:34px;height:36px;display:grid;place-items:center;border-radius:9px;background:#e6f5ed;color:#16734f;font-size:10px;font-weight:900}
+.bank-file strong{display:block;font-size:10px;overflow-wrap:anywhere}
+.bank-file small{display:block;color:#63748a;font-size:9px;margin-top:2px}
+.bank-stats{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}
+.bank-stat{padding:8px;background:#fff;border:1px solid #e2eee7;border-radius:8px}
+.bank-stat b{display:block;font-size:16px;color:#216b4c}
+.bank-stat span{font-size:9px;color:#6b7d73}
+.bank-help{font-size:9px;color:#627369;line-height:1.5;margin-top:9px}
+.bank-drop-hint{font-size:9px!important;color:#6b778c!important;margin-top:10px!important}
+.answer-highlight{padding:11px 12px;margin-top:9px;border:1px solid #b9dfca;background:#fff;border-radius:9px;color:#205c42}
+.answer-highlight strong{display:block;margin-bottom:3px}
+.user-answer{padding:9px 11px;margin-top:9px;border:1px solid #efc8cd;background:#fff;border-radius:9px;color:#77343d}
+.feedback .reason{color:#34445b}
+.feedback .reason b{display:block;margin-bottom:3px}
+.feedback .review-tip{margin-top:10px;font-size:10px;color:inherit;opacity:.86}
+#startExam{margin-top:2px}
+.global-drop-hint{letter-spacing:.35px}
+@media(max-width:520px){.bank-stats{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
-<div class="global-drop-overlay" id="globalDropOverlay" aria-hidden="true"><div class="global-drop-panel"><div class="global-drop-icon">⇩</div><div class="global-drop-title">Suelta tus documentos aquí</div><div class="global-drop-subtitle">Puedes soltarlos en cualquier parte de la pantalla.</div><div class="global-drop-hint">PDF · SE ADMITEN VARIOS ARCHIVOS</div></div></div>
+<div class="global-drop-overlay" id="globalDropOverlay" aria-hidden="true">
+  <div class="global-drop-panel">
+    <div class="global-drop-icon">{ }</div>
+    <div class="global-drop-title">Suelta tu banco de preguntas aquí</div>
+    <div class="global-drop-subtitle">Puedes soltar el archivo JSON en cualquier parte de la pantalla.</div>
+    <div class="global-drop-hint">JSON · UN BANCO A LA VEZ</div>
+  </div>
+</div>
 <div class="app">
-<header class="top"><div class="brand"><div class="mark">Q</div><div><strong>CUESTIONA 2.0</strong><small>Evaluaciones inteligentes desde tus documentos</small></div></div><div class="secure">◈ <span>PDF procesados localmente</span></div></header>
-<section class="hero"><div class="eyebrow">Aprende con intención</div><h1>Crea exámenes directamente desde tus manuales.</h1><p>Sin API, sin suscripciones adicionales y con tus documentos procesados en tu navegador.</p></section>
+<header class="top">
+  <div class="brand"><div class="mark">Q</div><div><strong>CUESTIONA 2.0</strong><small>Evaluaciones desde bancos de preguntas</small></div></div>
+  <div class="secure">◈ <span>Sin API · Procesamiento local</span></div>
+</header>
+<section class="hero">
+  <div class="eyebrow">Aprende con intención</div>
+  <h1>Practica con bancos de preguntas creados desde tus documentos.</h1>
+  <p>Importa un archivo JSON generado con ChatGPT y concéntrate en aprender. Cuestiona 2.0 no necesita conectarse a una API.</p>
+</section>
 <div class="layout">
 <aside class="card side">
-<h2 class="heading">01 · Material de estudio</h2>
-<label class="drop" id="drop"><input id="pdfInput" type="file" accept="application/pdf,.pdf" multiple><div class="drop-top"><div class="pdficon">⇧</div><span class="pill">PDF · Múltiples archivos</span></div><b>Arrastra tus documentos aquí</b><span>o selecciona archivos desde tu equipo</span><span class="browse">＋ Añadir documentos</span></label>
-<div class="files" id="files"><div class="note">Aún no has añadido documentos.</div></div>
-<div class="summary"><span id="fileCount">0 documentos</span><strong id="pageCount">0 páginas</strong></div>
-<div class="divider"></div>
-<h2 class="heading">02 · Configuración</h2>
-<div class="field"><label for="count">Cantidad de preguntas</label><input id="count" type="number" min="1" max="1000" value="10"></div>
-<div class="api on" id="api"><i class="dot"></i><span>Generación local · Sin API · Sin coste</span></div>
-<button class="btn primary full" id="generate" data-tip="Crea preguntas a partir del texto de tus PDF, sin conectarse a una API.">✦ Generar examen</button>
-<div class="error" id="error"></div>
-<div class="note">Generación local: tus documentos no salen del navegador.</div>
+  <h2 class="heading">01 · Banco de preguntas</h2>
+  <label class="drop" id="drop">
+    <input id="bankInput" type="file" accept=".json,application/json">
+    <div class="drop-top"><div class="pdficon">{ }</div><span class="pill">JSON · Banco de preguntas</span></div>
+    <b>Arrastra tu archivo JSON aquí</b>
+    <span>o selecciónalo desde tu equipo</span>
+    <span class="browse">＋ Importar banco JSON</span>
+  </label>
+  <div class="bank-info" id="bankInfo" hidden>
+    <div class="bank-file">
+      <div class="json-badge">JSON</div>
+      <div><strong id="bankName">Banco de preguntas</strong><small id="bankDescription">Archivo validado</small></div>
+    </div>
+    <div class="bank-stats">
+      <div class="bank-stat"><b id="bankQuestionCount">0</b><span>Preguntas</span></div>
+      <div class="bank-stat"><b id="bankTopicCount">0</b><span>Temas</span></div>
+    </div>
+    <div class="bank-help" id="bankSources"></div>
+  </div>
+  <div class="divider"></div>
+  <h2 class="heading">02 · Configuración del examen</h2>
+  <div class="field">
+    <label for="count">Cantidad de preguntas</label>
+    <input id="count" type="number" min="1" max="1000" value="20" disabled>
+  </div>
+  <div class="api on" id="api"><i class="dot"></i><span>Importación local · Sin API · Sin coste</span></div>
+  <button class="btn primary full" id="startExam" disabled data-tip="Inicia una evaluación con preguntas del banco importado.">Comenzar evaluación</button>
+  <button class="btn secondary full" id="replaceBank" style="display:none;margin-top:8px">Importar otro banco</button>
+  <div class="error" id="error"></div>
+  <div class="note">El banco se procesa en este navegador. No se envía a servicios externos. Importa un archivo JSON a la vez.</div>
 </aside>
 <main class="card main">
-<div class="mainhead"><div><h2 id="mainTitle">Tu espacio de evaluación</h2><p id="mainSub">Carga el material para comenzar.</p></div><span class="status" id="status">En espera</span></div>
-<div id="workspace"><div class="empty"><div class="emptyicon">▤</div><h3>Tu próximo examen empieza aquí</h3><p>Agrega uno o varios PDF. Cuestiona 2.0 buscará definiciones y conceptos en su contenido, sin conexión a servicios de IA.</p></div></div>
+  <div class="mainhead">
+    <div><h2 id="mainTitle">Tu espacio de evaluación</h2><p id="mainSub">Importa un banco JSON para comenzar.</p></div>
+    <span class="status" id="status">En espera</span>
+  </div>
+  <div id="workspace">
+    <div class="empty">
+      <div class="emptyicon">{ }</div>
+      <h3>Tu próximo examen empieza aquí</h3>
+      <p>Importa un banco JSON con preguntas, cuatro alternativas, respuesta correcta y explicación. Después elige cuántas preguntas deseas resolver.</p>
+    </div>
+  </div>
 </main>
 </div>
 </div>
 <script>
-pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-const $=id=>document.getElementById(id);
-let docs=[],exam=[],index=0,answers=[],chosen=null,confirmed=false;
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const bytes=n=>n<1024*1024?(n/1024).toFixed(0)+" KB":(n/1024/1024).toFixed(1)+" MB";
-function sourceText(){return docs.map(d=>d.text).join("\n\n");}
-function renderFiles(){
- $("files").innerHTML=docs.length?docs.map((d,i)=>'<div class="file"><div class="filebadge">PDF</div><div class="filemeta"><div class="filename" title="'+esc(d.name)+'">'+esc(d.name)+'</div><div class="filesub">'+d.pages+' páginas · '+bytes(d.size)+'</div></div><button class="remove" data-tip="Quitar documento" aria-label="Quitar '+esc(d.name)+'" data-remove="'+i+'">×</button></div>').join(""):'<div class="note">Aún no has añadido documentos.</div>';
- $("fileCount").textContent=docs.length+" documento"+(docs.length===1?"":"s");$("pageCount").textContent=docs.reduce((n,d)=>n+d.pages,0)+" páginas";
-}
-async function readPdf(file){
- const task=pdfjsLib.getDocument({data:await file.arrayBuffer()});const pdf=await task.promise;let text="";
- for(let p=1;p<=pdf.numPages;p++){const page=await pdf.getPage(p);const content=await page.getTextContent();const line=content.items.map(x=>x.str).filter(Boolean).join(" ");text+="DOCUMENTO: "+file.name+"\nPÁGINA: "+p+"\n"+line+"\n\n";}
- return {name:file.name,size:file.size,pages:pdf.numPages,text:text};
-}
-async function addFiles(list){
- const files=Array.from(list).filter(f=>f.type==="application/pdf"||f.name.toLowerCase().endsWith(".pdf"));
- if(!files.length)return;
- $("status").textContent="Leyendo PDF";$("error").classList.remove("show");
- for(const file of files){try{if(docs.some(d=>d.name===file.name&&d.size===file.size))continue;const doc=await readPdf(file);if(!doc.text.replace(/DOCUMENTO:.*|PÁGINA:.*|\s/g,"").length){throw new Error("No se encontró texto seleccionable. Este PDF podría ser un escaneo.");}docs.push(doc);}catch(e){showError(file.name+": "+e.message);}}
- renderFiles();$("status").textContent=docs.length?"Material listo":"En espera";$("mainSub").textContent=docs.length?"Material listo para generar tu examen.":"Carga el material para comenzar.";
-}
-function showError(msg){$("error").textContent=msg;$("error").classList.add("show");}
-$("pdfInput").addEventListener("change",e=>addFiles(e.target.files));
-$("drop").addEventListener("dragover",e=>{e.preventDefault();$("drop").classList.add("drag");});
-$("drop").addEventListener("dragleave",()=>$("drop").classList.remove("drag"));
-$("drop").addEventListener("drop",e=>{e.preventDefault();$("drop").classList.remove("drag");addFiles(e.dataTransfer.files);});
-// Captura de archivos en toda la ventana: no depende del recuadro de carga.
-// Arrastrar y soltar global: acepta uno o varios PDF en cualquier punto de la ventana.
-const globalDropOverlay=$("globalDropOverlay");
-function hasDraggedFiles(event){
- const transfer=event.dataTransfer;
- if(!transfer)return false;
- const types=Array.from(transfer.types||[]).map(type=>String(type).toLowerCase());
- const hasFileType=types.includes("files");
- const hasFileItem=Array.from(transfer.items||[]).some(item=>item.kind==="file");
- return hasFileType||hasFileItem||!!(transfer.files&&transfer.files.length);
-}
-function showGlobalDrop(){
- globalDropOverlay.classList.add("visible");
- globalDropOverlay.setAttribute("aria-hidden","false");
-}
-function hideGlobalDrop(){
- globalDropOverlay.classList.remove("visible");
- globalDropOverlay.setAttribute("aria-hidden","true");
-}
-document.addEventListener("dragenter",event=>{
- if(!hasDraggedFiles(event))return;
- event.preventDefault();
- if(event.dataTransfer)event.dataTransfer.dropEffect="copy";
- showGlobalDrop();
-},true);
-document.addEventListener("dragover",event=>{
- if(!hasDraggedFiles(event))return;
- event.preventDefault();
- if(event.dataTransfer)event.dataTransfer.dropEffect="copy";
- showGlobalDrop();
-},true);
-document.addEventListener("dragleave",event=>{
- if(!hasDraggedFiles(event))return;
- // No ocultar al pasar entre elementos internos: solo al salir de la ventana.
- const outside=event.clientX<=0||event.clientY<=0||
-  event.clientX>=window.innerWidth||event.clientY>=window.innerHeight;
- if(outside)hideGlobalDrop();
-},true);
-document.addEventListener("drop",event=>{
- const files=Array.from(event.dataTransfer?.files||[]);
- if(!files.length)return;
- event.preventDefault();
- event.stopImmediatePropagation();
- hideGlobalDrop();
- const pdfs=files.filter(file=>file.type==="application/pdf"||file.name.toLowerCase().endsWith(".pdf"));
- if(!pdfs.length){
-  showError("Suelta uno o varios documentos PDF para poder analizarlos.");
-  return;
- }
- addFiles(pdfs);
-},true);
-window.addEventListener("dragend",hideGlobalDrop);
-window.addEventListener("blur",hideGlobalDrop);
+const $ = id => document.getElementById(id);
+const STORAGE_LIMIT = 20 * 1024 * 1024;
+let bank = null, exam = [], index = 0, answers = [], chosen = null, confirmed = false;
+let reviewMode = false, reviewIndexes = [];
+const esc = value => String(value ?? "").replace(/[&<>"']/g, char => ({
+  "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+}[char]));
+const letterFor = value => String.fromCharCode(65 + value);
 
-$("files").addEventListener("click",e=>{const b=e.target.closest("[data-remove]");if(!b)return;docs.splice(Number(b.dataset.remove),1);renderFiles();$("status").textContent=docs.length?"Material listo":"En espera";});
-function extractDefinitionCandidates(){
- const candidates=[],seen=new Set(),ignored=/^(el|la|los|las|un|una|este|esta|estos|estas|se|también|cuando|donde|que|esto|ello|proceso|actividad|acción|forma|manera|caso|parte|tipo|nivel|objetivo|finalidad|función|característica|elemento|material|documento|persona|situación|incidente)$/i;
- const connectors=[/\s+se define como\s+/i,/\s+se denomina\s+/i,/\s+se conoce como\s+/i,/\s+consiste en\s+/i,/\s+se refiere a\s+/i,/\s+es\s+/i,/\s+son\s+/i];
- docs.forEach(doc=>{let page=1;for(const raw of doc.text.split(/\n/)){const pm=raw.match(/^PÁGINA:\s*(\d+)/i);if(pm){page=Number(pm[1]);continue;}if(/^DOCUMENTO:/i.test(raw))continue;
-  for(let sentence of raw.split(/(?<=[.!?;])\s+(?=[A-ZÁÉÍÓÚÜÑ0-9])/u)){sentence=sentence.replace(/\s+/g," ").trim().replace(/^[•\-–]\s*/,"");if(sentence.length<55||sentence.length>650)continue;
-   let m=null,sep="";for(const re of connectors){const hit=re.exec(sentence);if(hit){m=hit;sep=hit[0];break;}}if(!m)continue;
-   const term=sentence.slice(0,m.index).trim().replace(/^[,;:\s]+|[,;:\s]+$/g,""),definition=sentence.slice(m.index+sep.length).trim().replace(/[.;]\s*$/,"");
-   if(term.length<2||term.length>90||definition.length<28||definition.length>420||ignored.test(term)||!/\p{L}{3}/u.test(term)||!/\p{L}{3}/u.test(definition)||/^(un ejemplo|por ejemplo|es decir|en otras palabras)\b/i.test(definition))continue;
-   const key=term.toLocaleLowerCase("es")+"|"+definition.toLocaleLowerCase("es").slice(0,90);if(seen.has(key))continue;seen.add(key);candidates.push({term,definition,document:doc.name,page});
+function showError(message) {
+  $("error").textContent = message;
+  $("error").classList.add("show");
+}
+function clearError() {
+  $("error").textContent = "";
+  $("error").classList.remove("show");
+}
+function normalizeBank(parsed, filename) {
+  const sourceQuestions = Array.isArray(parsed)
+    ? parsed
+    : (parsed && Array.isArray(parsed.questions) ? parsed.questions : null);
+  if (!sourceQuestions || sourceQuestions.length === 0) {
+    throw new Error("El JSON debe contener una lista de preguntas o una propiedad «questions» con esa lista.");
   }
- }});
- return candidates;
+  const ids = new Set();
+  const questions = sourceQuestions.map((raw, position) => {
+    const number = position + 1;
+    if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+      throw new Error("La pregunta " + number + " no tiene un objeto válido.");
+    }
+    const prompt = typeof raw.question === "string" ? raw.question.trim() : "";
+    if (!prompt) throw new Error("La pregunta " + number + " no contiene el enunciado «question».");
+    if (!Array.isArray(raw.options) || raw.options.length !== 4) {
+      throw new Error("La pregunta " + number + " debe tener exactamente cuatro alternativas.");
+    }
+    const options = raw.options.map(option => {
+      if (typeof option === "string") return option.trim();
+      if (option && typeof option === "object") {
+        return String(option.text ?? option.label ?? option.value ?? "").trim();
+      }
+      return "";
+    });
+    if (options.some(option => !option)) {
+      throw new Error("La pregunta " + number + " contiene una alternativa vacía.");
+    }
+    const hasNumericAnswer = Number.isInteger(raw.answer);
+    const answerFromLetter = typeof raw.correct_option_id === "string"
+      ? ["A", "B", "C", "D"].indexOf(raw.correct_option_id.trim().toUpperCase())
+      : -1;
+    if (!hasNumericAnswer && answerFromLetter < 0) {
+      throw new Error("La pregunta " + number + " no indica la respuesta correcta mediante «answer» o «correct_option_id».");
+    }
+    const answer = hasNumericAnswer ? raw.answer : answerFromLetter;
+    if (answer < 0 || answer > 3) {
+      throw new Error("La respuesta correcta de la pregunta " + number + " está fuera del rango A–D.");
+    }
+    if (answerFromLetter >= 0 && answerFromLetter !== answer) {
+      throw new Error("La pregunta " + number + " tiene respuestas contradictorias entre «answer» y «correct_option_id».");
+    }
+    if (raw.correct_option_id != null && answerFromLetter < 0) {
+      throw new Error("La pregunta " + number + " contiene un «correct_option_id» distinto de A, B, C o D.");
+    }
+    const explanation = typeof raw.explanation === "string" ? raw.explanation.trim() : "";
+    if (!explanation) {
+      throw new Error("La pregunta " + number + " no contiene una explicación. Se requiere para que puedas aprender al corregir.");
+    }
+    const id = String(raw.id ?? ("PREG-" + String(number).padStart(4, "0"))).trim();
+    if (!id) throw new Error("La pregunta " + number + " tiene un identificador vacío.");
+    if (ids.has(id)) throw new Error("El identificador «" + id + "» está repetido. Cada pregunta debe tener un ID único.");
+    ids.add(id);
+    const optionExplanations = Array.isArray(raw.option_explanations)
+      ? raw.option_explanations.map(value => String(value ?? ""))
+      : null;
+    return {
+      id,
+      question: prompt,
+      options,
+      answer,
+      correct_option_id: letterFor(answer),
+      explanation,
+      option_explanations: optionExplanations,
+      page: raw.page ?? null,
+      page_label: typeof raw.page_label === "string" ? raw.page_label : "",
+      document: typeof raw.document === "string" ? raw.document : "",
+      topic: typeof raw.topic === "string" && raw.topic.trim() ? raw.topic.trim() : "Contenido del documento",
+      skill: typeof raw.skill === "string" && raw.skill.trim() ? raw.skill.trim() : "Comprensión"
+    };
+  });
+  const topics = new Set(questions.map(question => question.topic));
+  const documents = Array.from(new Set(questions.map(question => question.document).filter(Boolean)));
+  return {
+    name: parsed && !Array.isArray(parsed) && typeof parsed.title === "string" && parsed.title.trim()
+      ? parsed.title.trim() : filename,
+    filename,
+    questions,
+    topicCount: topics.size,
+    documents
+  };
 }
-function seededShuffle(items,seed){const a=items.slice();let x=(seed>>>0)||1;for(let i=a.length-1;i>0;i--){x=(x*1664525+1013904223)>>>0;const j=x%(i+1);[a[i],a[j]]=[a[j],a[i]];}return a;}
-function buildLocalExam(requested){
- const all=extractDefinitionCandidates();if(all.length<4)throw new Error("Encontré pocas definiciones claras para crear preguntas de cuatro alternativas. Prueba con un PDF que contenga conceptos definidos explícitamente.");
- if(new Set(all.map(x=>x.term.toLocaleLowerCase("es"))).size<4)throw new Error("El documento no contiene cuatro conceptos distintos para crear alternativas fiables.");
- const questions=[],used=new Set(),ordered=seededShuffle(all,all.length+docs.reduce((n,d)=>n+d.size,0));
- for(let i=0;i<ordered.length&&questions.length<requested;i++){const item=ordered[i],key=item.term.toLocaleLowerCase("es")+"|"+item.definition.toLocaleLowerCase("es");if(used.has(key))continue;
-  const distractors=[];for(const candidate of ordered){if(candidate.term.toLocaleLowerCase("es")===item.term.toLocaleLowerCase("es")||distractors.some(d=>d.term.toLocaleLowerCase("es")===candidate.term.toLocaleLowerCase("es")))continue;distractors.push(candidate);if(distractors.length===3)break;}if(distractors.length<3)continue;
-  const choices=seededShuffle([{candidate:item,correct:true},...distractors.map(candidate=>({candidate,correct:false}))],i+17),answer=choices.findIndex(x=>x.correct),options=choices.map(x=>x.candidate.term);
-  questions.push({question:"Según el documento, ¿qué concepto corresponde a la siguiente descripción? «"+item.definition+"»",options,answer,explanation:"La respuesta es «"+item.term+"» porque el documento la define así: "+item.definition+".",option_explanations:choices.map(x=>x.correct?"El documento identifica este concepto con la definición citada.":"El material define «"+x.candidate.term+"» de otra manera: "+x.candidate.definition+". Por eso no corresponde a la descripción preguntada."),page:item.page,document:item.document,topic:"Conceptos del documento",skill:"Comprensión"});used.add(key);
- }
- if(!questions.length)throw new Error("No se pudieron construir preguntas con alternativas diferenciables a partir del material.");
- return questions;
+function renderBank() {
+  if (!bank) return;
+  $("bankInfo").hidden = false;
+  $("bankName").textContent = bank.name;
+  $("bankDescription").textContent = bank.filename + " · JSON validado";
+  $("bankQuestionCount").textContent = bank.questions.length.toLocaleString("es-PE");
+  $("bankTopicCount").textContent = bank.topicCount.toLocaleString("es-PE");
+  $("bankSources").textContent = bank.documents.length
+    ? "Documentos de referencia: " + bank.documents.join(" · ")
+    : "El banco no incluye nombres de documentos de referencia.";
+  $("count").disabled = false;
+  $("count").max = String(bank.questions.length);
+  $("count").value = String(Math.min(20, bank.questions.length));
+  $("startExam").disabled = false;
+  $("replaceBank").style.display = "block";
+  $("status").textContent = "Banco listo";
+  $("mainTitle").textContent = bank.name;
+  $("mainSub").textContent = bank.questions.length + " preguntas disponibles · " + bank.topicCount + " temas";
+  $("workspace").innerHTML =
+    '<div class="empty"><div class="emptyicon">✓</div><h3>Banco importado correctamente</h3>' +
+    '<p>Cuestiona 2.0 validó ' + bank.questions.length + ' preguntas. Elige la cantidad y pulsa «Comenzar evaluación». ' +
+    'Cuando te equivoques, verás la respuesta correcta y su explicación antes de continuar.</p></div>';
 }
-function generate(){
- $("error").classList.remove("show");if(!docs.length){showError("Añade al menos un documento PDF.");return;}
- const requested=Math.max(1,Math.min(1000,Number($("count").value)||10));$("count").value=requested;$("generate").disabled=true;$("generate").innerHTML='<span class="spinner"></span> Generando';$("status").textContent="Procesando localmente";
- $("workspace").innerHTML='<div class="empty"><div class="emptyicon"><span class="spinner" style="border-color:#5365dc44;border-top-color:#5365dc"></span></div><h3>Analizando tus documentos</h3><p>Buscando definiciones y conceptos en el navegador, sin enviar tus archivos a servicios externos.</p></div>';
- setTimeout(()=>{try{exam=buildLocalExam(requested);index=0;answers=Array(exam.length).fill(null);chosen=null;confirmed=false;$("status").textContent="Examen listo";$("mainSub").textContent=exam.length+" preguntas · Generación local";if(exam.length<requested)showError("Se encontraron "+exam.length+" preguntas distintas con definiciones identificables. No se inventaron preguntas para completar las "+requested+" solicitadas.");renderQuestion();}
- catch(e){$("status").textContent="Material insuficiente";$("workspace").innerHTML='<div class="empty"><div class="emptyicon">!</div><h3>No se pudo crear el examen</h3><p>'+esc(e.message)+'</p></div>';}
- finally{$("generate").disabled=false;$("generate").textContent="✦ Generar examen";}},30);
+async function importBank(file) {
+  clearError();
+  if (!file) return;
+  if (!file.name.toLowerCase().endsWith(".json")) {
+    showError("Selecciona un archivo con extensión .json.");
+    return;
+  }
+  if (file.size > STORAGE_LIMIT) {
+    showError("El archivo supera el límite de 20 MB. Divide el banco en archivos JSON más pequeños.");
+    return;
+  }
+  $("status").textContent = "Validando JSON";
+  try {
+    const text = await file.text();
+    const parsed = JSON.parse(text);
+    const validated = normalizeBank(parsed, file.name);
+    bank = validated;
+    exam = [];
+    answers = [];
+    reviewMode = false;
+    reviewIndexes = [];
+    renderBank();
+  } catch (error) {
+    $("status").textContent = bank ? "Banco anterior disponible" : "Error de importación";
+    showError("No se pudo importar el archivo: " + error.message);
+  } finally {
+    $("bankInput").value = "";
+  }
 }
-$("generate").addEventListener("click",generate);
+$("bankInput").addEventListener("change", event => importBank(event.target.files[0]));
+$("replaceBank").addEventListener("click", () => $("bankInput").click());
+$("count").addEventListener("change", () => {
+  if (!bank) return;
+  const value = Math.max(1, Math.min(bank.questions.length, Number($("count").value) || 1));
+  $("count").value = String(value);
+});
+function hasDraggedFiles(event) {
+  const transfer = event.dataTransfer;
+  if (!transfer) return false;
+  const types = Array.from(transfer.types || []).map(type => String(type).toLowerCase());
+  return types.includes("files") ||
+    Array.from(transfer.items || []).some(item => item.kind === "file") ||
+    !!(transfer.files && transfer.files.length);
+}
+const globalDropOverlay = $("globalDropOverlay");
+function showGlobalDrop() {
+  globalDropOverlay.classList.add("visible");
+  globalDropOverlay.setAttribute("aria-hidden", "false");
+}
+function hideGlobalDrop() {
+  globalDropOverlay.classList.remove("visible");
+  globalDropOverlay.setAttribute("aria-hidden", "true");
+}
+document.addEventListener("dragenter", event => {
+  if (!hasDraggedFiles(event)) return;
+  event.preventDefault();
+  if (event.dataTransfer) event.dataTransfer.dropEffect = "copy";
+  showGlobalDrop();
+}, true);
+document.addEventListener("dragover", event => {
+  if (!hasDraggedFiles(event)) return;
+  event.preventDefault();
+  if (event.dataTransfer) event.dataTransfer.dropEffect = "copy";
+  showGlobalDrop();
+}, true);
+document.addEventListener("dragleave", event => {
+  if (!hasDraggedFiles(event)) return;
+  const outside = event.clientX <= 0 || event.clientY <= 0 ||
+    event.clientX >= window.innerWidth || event.clientY >= window.innerHeight;
+  if (outside) hideGlobalDrop();
+}, true);
+document.addEventListener("drop", event => {
+  const files = Array.from(event.dataTransfer?.files || []);
+  if (!files.length) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  hideGlobalDrop();
+  if (files.length > 1) {
+    showError("Importa un archivo JSON a la vez. Puedes reemplazar el banco actual cuando lo necesites.");
+    return;
+  }
+  importBank(files[0]);
+}, true);
+window.addEventListener("dragend", hideGlobalDrop);
+window.addEventListener("blur", hideGlobalDrop);
 
-function renderQuestion(){
- const q=exam[index];const prior=answers[index];chosen=prior?prior.choice:null;confirmed=!!(prior&&prior.confirmed);
- const pct=Math.round((index/exam.length)*100);
- $("mainTitle").textContent="Evaluación en curso";$("status").textContent="Pregunta "+(index+1)+" de "+exam.length;
- let h='<div class="progressrow"><span>Progreso</span><b>'+(index+1)+' / '+exam.length+'</b></div><div class="progress"><div style="width:'+pct+'%"></div></div><div class="qmeta"><span class="tag">'+esc(q.topic||"Contenido del documento")+'</span><span class="tag">'+esc(q.skill||"Comprensión")+'</span><span class="tag source">'+esc(q.document||"Material fuente")+' · pág. '+esc(q.page)+'</span></div><h3 class="question">'+esc(q.question)+'</h3><div class="options">';
- h+=q.options.map((o,i)=>'<button class="option '+(chosen===i?'selected ':'')+(confirmed&&i===q.answer?'correct ':'')+(confirmed&&chosen===i&&chosen!==q.answer?'wrong':'')+'" data-option="'+i+'" '+(confirmed?'disabled':'')+'><span class="letter">'+String.fromCharCode(65+i)+'</span><span class="optiontext">'+esc(o)+'</span></button>').join("");
- h+='</div><div class="feedback '+(confirmed?'show '+(chosen===q.answer?'good':'bad'):'')+'" id="feedback">';
- if(confirmed){const selectedWhy=q.option_explanations?.[chosen]||"Revisa la explicación general.";const correctWhy=q.option_explanations?.[q.answer]||q.explanation||"";h+='<strong>'+(chosen===q.answer?'✓ ¡Correcto!':'✕ Respuesta incorrecta')+'</strong><p><b>Respuesta correcta: '+String.fromCharCode(65+q.answer)+'.</b> '+esc(q.options[q.answer])+'</p><div class="reason"><b>Explicación:</b> '+esc(q.explanation||correctWhy)+'</div>'+(chosen!==q.answer?'<div class="reason"><b>Por qué tu opción no corresponde:</b> '+esc(selectedWhy)+'</div>':'');}
- h+='</div><div class="examfoot"><button class="btn secondary" data-tip="Finaliza el examen y muestra tu resultado." id="finish">Finalizar</button><button class="btn primary" id="confirm" '+(chosen===null||confirmed?'disabled':'')+' data-tip="Comprueba tu alternativa y muestra la explicación.">Comprobar respuesta</button><button class="btn primary" id="next" style="display:'+(confirmed?'inline-flex':'none')+'">'+(index===exam.length-1?'Ver resultado':'Siguiente →')+'</button></div>';
- if(confirmed)h+='<div class="note">Fuente: '+esc(q.document||"Documento")+', página '+esc(q.page)+'.</div>';
- $("workspace").innerHTML=h;
- $("workspace").querySelectorAll("[data-option]").forEach(b=>b.addEventListener("click",()=>{if(confirmed)return;chosen=Number(b.dataset.option);$("workspace").querySelectorAll("[data-option]").forEach(x=>x.classList.toggle("selected",x===b));$("confirm").disabled=false;}));
- $("confirm").addEventListener("click",()=>{if(chosen===null)return;answers[index]={choice:chosen,confirmed:true};renderQuestion();});
- $("next").addEventListener("click",()=>{if(index<exam.length-1){index++;renderQuestion();}else renderResult();});
- $("finish").addEventListener("click",renderResult);
+function shuffled(items) {
+  const result = items.slice();
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
 }
-function renderResult(){
- const done=answers.filter(a=>a&&a.confirmed);const correct=done.filter(a=>a.choice===exam[answers.indexOf(a)]?.answer).length;const pct=done.length?Math.round(correct/done.length*100):0;
- $("mainTitle").textContent="Resultado del examen";$("mainSub").textContent="Resumen de tu desempeño";$("status").textContent="Completado";
- $("workspace").innerHTML='<div class="result"><div class="eyebrow" style="color:#7380e7">Tu resultado</div><div class="score">'+pct+'%</div><h3>'+correct+' de '+done.length+' correctas</h3><p>Has respondido '+done.length+' de '+exam.length+' preguntas.</p><button class="btn primary" id="retry">Repetir examen</button> <button class="btn secondary" id="wrong">Revisar incorrectas</button></div>';
- $("retry").addEventListener("click",()=>{index=0;answers=Array(exam.length).fill(null);renderQuestion();});
- $("wrong").addEventListener("click",()=>{const wrong=exam.map((q,i)=>({q,a:answers[i],i})).filter(x=>x.a&&x.a.choice!==x.q.answer);if(!wrong.length){$("workspace").innerHTML='<div class="empty"><h3>¡Excelente!</h3><p>No tienes respuestas incorrectas.</p></div>';return;}index=wrong[0].i;renderQuestion();});
+function startExam() {
+  clearError();
+  if (!bank || !bank.questions.length) {
+    showError("Primero importa un banco JSON válido.");
+    return;
+  }
+  const requested = Math.max(1, Math.min(bank.questions.length, Number($("count").value) || 1));
+  $("count").value = String(requested);
+  exam = shuffled(bank.questions).slice(0, requested);
+  index = 0;
+  answers = Array(exam.length).fill(null);
+  chosen = null;
+  confirmed = false;
+  reviewMode = false;
+  reviewIndexes = [];
+  $("status").textContent = "Examen en curso";
+  $("mainTitle").textContent = bank.name;
+  $("mainSub").textContent = "Evaluación basada en el banco importado · Sin conexión a IA";
+  renderQuestion();
+}
+$("startExam").addEventListener("click", startExam);
+
+function activeQuestionIndex() {
+  return reviewMode ? reviewIndexes[index] : index;
+}
+function renderQuestion() {
+  if (!exam.length) return;
+  const currentIndex = activeQuestionIndex();
+  const q = exam[currentIndex];
+  const prior = answers[currentIndex];
+  chosen = prior ? prior.choice : null;
+  confirmed = !!(prior && prior.confirmed);
+  const total = reviewMode ? reviewIndexes.length : exam.length;
+  const pct = Math.round(((index + 1) / total) * 100);
+  $("mainTitle").textContent = reviewMode ? "Revisión de respuestas incorrectas" : "Evaluación en curso";
+  $("status").textContent = (reviewMode ? "Revisión " : "Pregunta ") + (index + 1) + " de " + total;
+  const source = [q.document, q.page_label || (q.page != null ? "pág. " + q.page : "")].filter(Boolean).join(" · ");
+  let html = '<div class="progressrow"><span>' + (reviewMode ? "Progreso de revisión" : "Progreso del examen") +
+    '</span><b>' + (index + 1) + ' / ' + total + '</b></div>' +
+    '<div class="progress"><div style="width:' + pct + '%"></div></div>' +
+    '<div class="qmeta"><span class="tag">' + esc(q.topic) + '</span><span class="tag">' + esc(q.skill) + '</span>' +
+    (source ? '<span class="tag source">' + esc(source) + '</span>' : '') + '</div>' +
+    '<h3 class="question">' + esc(q.question) + '</h3><div class="options">';
+  html += q.options.map((option, optionIndex) => {
+    const classes = (chosen === optionIndex ? "selected " : "") +
+      (confirmed && optionIndex === q.answer ? "correct " : "") +
+      (confirmed && chosen === optionIndex && chosen !== q.answer ? "wrong" : "");
+    return '<button class="option ' + classes + '" data-option="' + optionIndex + '" ' +
+      (confirmed ? "disabled" : "") + '><span class="letter">' + letterFor(optionIndex) +
+      '</span><span class="optiontext">' + esc(option) + '</span></button>';
+  }).join("");
+  html += '</div><div class="feedback ' + (confirmed ? "show " + (chosen === q.answer ? "good" : "bad") : "") + '" id="feedback">';
+  if (confirmed) {
+    if (chosen === q.answer) {
+      html += '<strong>✓ ¡Correcto! Has identificado la alternativa adecuada.</strong>';
+    } else {
+      html += '<strong>✕ Respuesta incorrecta. Repasemos para que puedas aprenderlo.</strong>' +
+        '<div class="user-answer"><b>Tu respuesta:</b> ' + letterFor(chosen) + '. ' + esc(q.options[chosen]) + '</div>';
+    }
+    html += '<div class="answer-highlight"><strong>Respuesta correcta: ' + letterFor(q.answer) +
+      '. ' + esc(q.options[q.answer]) + '</strong></div>' +
+      '<div class="reason"><b>¿Por qué es correcta?</b>' + esc(q.explanation) + '</div>';
+    const selectedExplanation = q.option_explanations && q.option_explanations[chosen];
+    if (chosen !== q.answer && selectedExplanation) {
+      html += '<div class="reason"><b>Sobre la alternativa que elegiste</b>' + esc(selectedExplanation) + '</div>';
+    }
+    if (source) html += '<div class="review-tip">Referencia: ' + esc(source) + '</div>';
+  }
+  html += '</div><div class="examfoot">' +
+    '<button class="btn secondary" id="finish" data-tip="Finaliza y muestra tu resultado.">Finalizar</button>' +
+    '<button class="btn primary" id="confirm" ' + (chosen === null || confirmed ? "disabled" : "") +
+    ' data-tip="Comprueba tu respuesta y revisa la explicación.">Comprobar respuesta</button>' +
+    '<button class="btn primary" id="next" style="display:' + (confirmed ? "inline-flex" : "none") + '">' +
+    (index === total - 1 ? "Ver resultado" : "Siguiente →") + '</button></div>';
+  $("workspace").innerHTML = html;
+  $("workspace").querySelectorAll("[data-option]").forEach(button => {
+    button.addEventListener("click", () => {
+      if (confirmed) return;
+      chosen = Number(button.dataset.option);
+      $("workspace").querySelectorAll("[data-option]").forEach(option => {
+        option.classList.toggle("selected", option === button);
+      });
+      $("confirm").disabled = false;
+    });
+  });
+  $("confirm").addEventListener("click", () => {
+    if (chosen === null || confirmed) return;
+    answers[currentIndex] = {choice:chosen, confirmed:true};
+    renderQuestion();
+  });
+  $("next").addEventListener("click", () => {
+    if (index < total - 1) {
+      index++;
+      renderQuestion();
+    } else {
+      reviewMode = false;
+      renderResult();
+    }
+  });
+  $("finish").addEventListener("click", () => {
+    reviewMode = false;
+    renderResult();
+  });
+}
+function renderResult() {
+  const completed = answers.filter(answer => answer && answer.confirmed).length;
+  let correct = 0;
+  let wrongIndexesLocal = [];
+  answers.forEach((answer, questionIndex) => {
+    if (!answer || !answer.confirmed) return;
+    if (answer.choice === exam[questionIndex].answer) correct++;
+    else wrongIndexesLocal.push(questionIndex);
+  });
+  const incorrect = wrongIndexesLocal.length;
+  const unanswered = exam.length - completed;
+  const percentage = completed ? Math.round(correct / completed * 100) : 0;
+  $("mainTitle").textContent = "Resultado del examen";
+  $("mainSub").textContent = bank ? bank.name : "Resumen de tu desempeño";
+  $("status").textContent = "Evaluación finalizada";
+  $("workspace").innerHTML =
+    '<div class="result"><div class="eyebrow" style="color:#7380e7">Tu resultado</div>' +
+    '<div class="score">' + percentage + '%</div><h3>' + correct + ' de ' + completed + ' correctas</h3>' +
+    '<p>Incorrectas: ' + incorrect + ' · Sin responder: ' + unanswered + ' · Total: ' + exam.length + '</p>' +
+    '<button class="btn primary" id="retry">Repetir evaluación</button> ' +
+    '<button class="btn secondary" id="wrong" ' + (incorrect ? "" : "disabled") + '>Revisar incorrectas (' + incorrect + ')</button></div>';
+  $("retry").addEventListener("click", () => {
+    index = 0;
+    answers = Array(exam.length).fill(null);
+    reviewMode = false;
+    reviewIndexes = [];
+    renderQuestion();
+  });
+  $("wrong").addEventListener("click", () => {
+    if (!wrongIndexesLocal.length) return;
+    reviewMode = true;
+    reviewIndexes = wrongIndexesLocal;
+    index = 0;
+    renderQuestion();
+  });
 }
 </script>
-</body></html>
+</body>
+</html>
