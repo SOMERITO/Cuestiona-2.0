@@ -2,40 +2,67 @@
 
 **Repositorio oficial:** https://github.com/SOMERITO/Cuestiona-2.0
 
-Genera cuestionarios de opción múltiple desde documentos PDF directamente en tu navegador, sin API de pago, sin clave y sin servidor Python.
+Aplicación web para resolver evaluaciones a partir de bancos de preguntas JSON. Los bancos pueden elaborarse con ChatGPT usando los documentos de estudio como fuente; Cuestiona 2.0 los importa y presenta sin conectarse a una API de inteligencia artificial.
 
 ## Funciones
 
-- Carga de varios PDF y arrastrar archivos a cualquier parte de la pantalla.
-- Extracción local del texto y referencias de página mediante PDF.js.
-- Generación local de preguntas a partir de definiciones explícitas del material.
-- Cuatro alternativas por pregunta, una respuesta correcta y explicación basada en el texto.
-- Corrección inmediata y revisión de respuestas.
-- Solicitud de hasta 1.000 preguntas por generación, limitada por la cantidad de conceptos distintos que realmente puedan extraerse.
+- Importación de bancos en formato JSON, tanto como lista de preguntas como mediante una propiedad `questions`.
+- Carga de un banco a la vez mediante selector de archivos o arrastrar y soltar en cualquier parte de la ventana.
+- Validación de estructura, identificadores únicos, cuatro alternativas, respuesta correcta y explicación obligatoria.
+- Compatibilidad con `answer` (índice 0–3) y `correct_option_id` (A–D); si ambos existen, deben coincidir.
+- Selección de la cantidad de preguntas que se desea resolver, hasta el total disponible en el banco.
+- Orden aleatorio de las preguntas para cada intento, sin alterar el orden de las alternativas ni la clave de respuesta.
+- Corrección inmediata: al responder, muestra la alternativa correcta y la explicación asociada al material.
+- Cuando la respuesta es incorrecta, identifica la alternativa elegida y muestra la correcta antes de permitir avanzar.
+- Conserva tema, habilidad, documento de origen, página y etiqueta de página cuando esos campos están disponibles.
+- Resultados con aciertos, errores, preguntas sin responder y revisión de las incorrectas.
 
 ## Cómo usar
 
 1. Abre la página publicada o sirve los archivos estáticos desde cualquier servidor web.
-2. Carga uno o varios PDF con texto seleccionable.
-3. Indica cuántas preguntas deseas (1–1.000).
-4. Pulsa **Generar examen** y responde las alternativas.
+2. En otro chat de ChatGPT, adjunta tus PDF y solicita un banco de preguntas compatible con Cuestiona 2.0.
+3. Descarga el archivo `.json` generado.
+4. En Cuestiona 2.0, selecciona el banco o arrástralo a cualquier parte de la ventana.
+5. Comprueba la cantidad de preguntas y los temas detectados.
+6. Elige cuántas preguntas deseas resolver y pulsa **Comenzar evaluación**.
+7. Después de cada respuesta, revisa la corrección y la explicación antes de continuar.
 
 No necesitas crear una cuenta, introducir una clave API ni ejecutar Python.
 
-## Cómo se generan las preguntas
+## Formato JSON compatible
 
-La generación se realiza en el navegador mediante reglas de extracción de texto. La versión actual identifica construcciones explícitas como «X es…», «X consiste en…», «X se define como…» y «X se refiere a…». Usa la descripción original como base de la pregunta y otros conceptos encontrados en los documentos como distractores.
+El formato principal es una lista JSON de preguntas. También se admite un objeto que contenga una propiedad `questions` con esa lista.
 
-**Límite importante:** esto no es un modelo de IA. La calidad y cantidad dependen de cómo esté redactado el PDF. No inventa preguntas para completar el número solicitado; si solo encuentra 23 preguntas distintas y solicitas 100, entrega las 23 y lo informa. Los PDF escaneados sin texto seleccionable necesitan OCR previo. Algunas preguntas pueden requerir revisión humana, especialmente si el documento contiene frases complejas o definiciones muy parecidas.
+Cada pregunta debe incluir:
+- `id`: identificador único.
+- `question`: enunciado.
+- `options`: exactamente cuatro alternativas de texto.
+- `answer`: índice de la alternativa correcta, empezando desde cero (A = 0, B = 1, C = 2, D = 3), o `correct_option_id`: letra A, B, C o D.
+- `explanation`: explicación obligatoria de la respuesta correcta.
+
+También se conservan, cuando existen, `correct_option_id`, `page`, `page_label`, `document`, `topic`, `skill` y `option_explanations`.
+
+Cuando el archivo incluye `answer` y `correct_option_id`, ambos campos deben señalar la misma alternativa. El importador rechaza el banco completo si encuentra preguntas incompletas, alternativas vacías, identificadores repetidos, respuestas fuera de rango o explicaciones faltantes; así evita cargar un examen parcialmente defectuoso.
+
+## Corrección para el aprendizaje
+
+Al comprobar una respuesta:
+- Si es correcta, la alternativa se marca en verde y se muestra la explicación.
+- Si es incorrecta, la alternativa seleccionada se marca en rojo y la correcta en verde.
+- Se muestra el texto completo de la respuesta correcta y la explicación del banco.
+- La persona debe revisar esa corrección antes de avanzar a la siguiente pregunta.
+
+Si el banco incluye explicaciones específicas por alternativa en `option_explanations`, también se muestra la explicación de la alternativa seleccionada.
 
 ## Privacidad y coste
 
-- Los archivos se leen en el navegador y su texto no se envía a OpenAI ni a otro servicio de generación.
+- La importación, validación, evaluación y corrección se realizan en el navegador.
+- El contenido del JSON no se envía a OpenAI ni a otros servicios de generación.
 - No hay costes por uso de API.
-- PDF.js se carga desde una CDN pública, por lo que la primera carga de la biblioteca requiere conexión a internet.
+- La elaboración del banco en ChatGPT es una etapa separada de la aplicación.
 - No cargues documentos confidenciales en equipos o navegadores compartidos.
 
 ## Estructura
 
-- `index.html`: aplicación web y generación local.
+- `index.html`: aplicación web, importador JSON y sistema de evaluación.
 - `.gitignore`: exclusión de archivos locales y secretos.
